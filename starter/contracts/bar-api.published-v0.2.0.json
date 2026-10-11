@@ -1,0 +1,765 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Bar API — teaching contract",
+    "version": "0.2.0",
+    "description": "Design example, not a deployed service. Menu-item and order CRUD illustrate one possible scope; not a mandated project entity count. Security/login is deliberately deferred to the security lecture; this is not a production-ready public API. JSON and YAML files describe the same contract. Error shape is a design choice: FastAPI defaults differ and must be adapted or the contract revised."
+  },
+  "servers": [
+    {
+      "url": "https://bar.example.invalid",
+      "description": "Placeholder only: no running server. Replace after implementing locally."
+    }
+  ],
+  "tags": [
+    {
+      "name": "Menu items",
+      "description": "Catalogue data"
+    },
+    {
+      "name": "Orders",
+      "description": "Table orders; status progression is a future extension"
+    }
+  ],
+  "paths": {
+    "/menu-items": {
+      "get": {
+        "tags": [
+          "Menu items"
+        ],
+        "operationId": "listMenuItems",
+        "summary": "List menu-items",
+        "description": "Small teaching collection; an empty collection returns 200 and []. Pagination is outside this example.",
+        "responses": {
+          "200": {
+            "description": "Collection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MenuItem"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "Espresso macchiato",
+                    "price": 4.5,
+                    "currency": "CHF",
+                    "available": true
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Menu items"
+        ],
+        "operationId": "createMenuItem",
+        "summary": "Create MenuItem",
+        "description": "The server assigns the id.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuItemInput"
+              },
+              "example": {
+                "name": "Espresso macchiato",
+                "price": 4.5,
+                "currency": "CHF",
+                "available": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuItem"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "Espresso macchiato",
+                  "price": 4.5,
+                  "currency": "CHF",
+                  "available": true
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "description": "Relative URL of the created resource",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "/menu-items/1"
+              }
+            }
+          },
+          "422": {
+            "description": "Request data fails validation or a business rule.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "invalid_input",
+                  "message": "Request data fails validation or a business rule."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/menu-items/{menu_item_id}": {
+      "parameters": [
+        {
+          "name": "menu_item_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Menu items"
+        ],
+        "operationId": "readMenuItem",
+        "summary": "Read one MenuItem",
+        "responses": {
+          "200": {
+            "description": "Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuItem"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "Espresso macchiato",
+                  "price": 4.5,
+                  "currency": "CHF",
+                  "available": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Requested resource not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "not_found",
+                  "message": "Requested resource not found."
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Menu items"
+        ],
+        "operationId": "replaceMenuItem",
+        "summary": "Replace editable MenuItem fields",
+        "description": "Send all input fields; id stays unchanged.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuItemInput"
+              },
+              "example": {
+                "name": "Espresso macchiato",
+                "price": 4.5,
+                "currency": "CHF",
+                "available": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuItem"
+                },
+                "example": {
+                  "id": 1,
+                  "name": "Espresso macchiato",
+                  "price": 4.5,
+                  "currency": "CHF",
+                  "available": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Requested resource not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "not_found",
+                  "message": "Requested resource not found."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Operation conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "conflict",
+                  "message": "Operation conflicts with the current state."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request data fails validation or a business rule.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "invalid_input",
+                  "message": "Request data fails validation or a business rule."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Menu items"
+        ],
+        "operationId": "deleteMenuItem",
+        "summary": "Delete MenuItem",
+        "description": "An item referenced by an order cannot be deleted (409); set available=false instead.",
+        "responses": {
+          "204": {
+            "description": "Deleted; no response body"
+          },
+          "404": {
+            "description": "Requested resource not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "not_found",
+                  "message": "Requested resource not found."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Operation conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "conflict",
+                  "message": "Operation conflicts with the current state."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "listOrders",
+        "summary": "List orders",
+        "description": "Small teaching collection; an empty collection returns 200 and []. Pagination is outside this example.",
+        "responses": {
+          "200": {
+            "description": "Collection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 12,
+                    "table": 3,
+                    "status": "pending",
+                    "items": [
+                      {
+                        "menu_item_id": 1,
+                        "quantity": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "createOrder",
+        "summary": "Create Order",
+        "description": "The server assigns the id. New orders start pending; referenced items must exist and be available. Quantities must be positive.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderInput"
+              },
+              "example": {
+                "table": 3,
+                "items": [
+                  {
+                    "menu_item_id": 1,
+                    "quantity": 2
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "example": {
+                  "id": 12,
+                  "table": 3,
+                  "status": "pending",
+                  "items": [
+                    {
+                      "menu_item_id": 1,
+                      "quantity": 2
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "description": "Relative URL of the created resource",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "/orders/12"
+              }
+            }
+          },
+          "422": {
+            "description": "Request data fails validation or a business rule.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "invalid_input",
+                  "message": "Request data fails validation or a business rule."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{order_id}": {
+      "parameters": [
+        {
+          "name": "order_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "readOrder",
+        "summary": "Read one Order",
+        "responses": {
+          "200": {
+            "description": "Resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "example": {
+                  "id": 12,
+                  "table": 3,
+                  "status": "pending",
+                  "items": [
+                    {
+                      "menu_item_id": 1,
+                      "quantity": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Requested resource not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "not_found",
+                  "message": "Requested resource not found."
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "replaceOrder",
+        "summary": "Replace editable Order fields",
+        "description": "Send all input fields; id stays unchanged. Only pending orders can be edited; status is server-managed and remains pending. Item references must be valid and available.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderInput"
+              },
+              "example": {
+                "table": 3,
+                "items": [
+                  {
+                    "menu_item_id": 1,
+                    "quantity": 2
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "example": {
+                  "id": 12,
+                  "table": 3,
+                  "status": "pending",
+                  "items": [
+                    {
+                      "menu_item_id": 1,
+                      "quantity": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Requested resource not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "not_found",
+                  "message": "Requested resource not found."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Operation conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "conflict",
+                  "message": "Operation conflicts with the current state."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request data fails validation or a business rule.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "invalid_input",
+                  "message": "Request data fails validation or a business rule."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "deleteOrder",
+        "summary": "Delete Order",
+        "description": "Only pending orders can be deleted. Later states return 409.",
+        "responses": {
+          "204": {
+            "description": "Deleted; no response body"
+          },
+          "404": {
+            "description": "Requested resource not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "not_found",
+                  "message": "Requested resource not found."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Operation conflicts with the current state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "conflict",
+                  "message": "Operation conflicts with the current state."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MenuItemInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "CHF"
+            ]
+          },
+          "available": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "price",
+          "currency",
+          "available"
+        ],
+        "additionalProperties": false
+      },
+      "MenuItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "CHF"
+            ]
+          },
+          "available": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "price",
+          "currency",
+          "available"
+        ],
+        "additionalProperties": false
+      },
+      "OrderLine": {
+        "type": "object",
+        "properties": {
+          "menu_item_id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "menu_item_id",
+          "quantity"
+        ],
+        "additionalProperties": false
+      },
+      "OrderInput": {
+        "type": "object",
+        "properties": {
+          "table": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/OrderLine"
+            }
+          }
+        },
+        "required": [
+          "table",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "table": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/OrderLine"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "preparing",
+              "ready",
+              "served",
+              "cancelled"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "table",
+          "items",
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

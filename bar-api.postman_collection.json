@@ -1,0 +1,110 @@
+{
+  "info": {
+    "name": "Station Bar - contract to running backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "1 Read the menu",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/menu-items/1"
+      }
+    },
+    {
+      "name": "2 Create order (fresh data: 12)",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/orders",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"table\": 3,\n  \"items\": [\n    {\n      \"menu_item_id\": 1,\n      \"quantity\": 2\n    }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "3 Read created order",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/orders/12"
+      }
+    },
+    {
+      "name": "4 Replace pending order",
+      "request": {
+        "method": "PUT",
+        "url": "{{base_url}}/orders/12",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"table\": 3,\n  \"items\": [\n    {\n      \"menu_item_id\": 1,\n      \"quantity\": 3\n    }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "5 Ready order conflict (409)",
+      "request": {
+        "method": "PUT",
+        "url": "{{base_url}}/orders/11",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"table\": 3,\n  \"items\": [\n    {\n      \"menu_item_id\": 1,\n      \"quantity\": 2\n    }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "6 Invalid quantity (422)",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/orders",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"table\": 3,\n  \"items\": [\n    {\n      \"menu_item_id\": 1,\n      \"quantity\": 0\n    }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "7 Delete pending order (204)",
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/orders/12"
+      }
+    },
+    {
+      "name": "8 Missing order (404)",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/orders/12"
+      }
+    }
+  ]
+}

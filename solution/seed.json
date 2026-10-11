@@ -1,0 +1,40 @@
+{
+  "next_menu_item_id": 4,
+  "next_order_id": 12,
+  "menu_items": [
+    {
+      "id": 1,
+      "name": "Espresso macchiato",
+      "price": 4.5,
+      "currency": "CHF",
+      "available": true
+    },
+    {
+      "id": 2,
+      "name": "Cappuccino",
+      "price": 5.5,
+      "currency": "CHF",
+      "available": true
+    },
+    {
+      "id": 3,
+      "name": "Tea",
+      "price": 4.0,
+      "currency": "CHF",
+      "available": false
+    }
+  ],
+  "orders": [
+    {
+      "id": 11,
+      "table": 5,
+      "status": "ready",
+      "items": [
+        {
+          "menu_item_id": 2,
+          "quantity": 1
+        }
+      ]
+    }
+  ]
+}
