@@ -1,0 +1,43 @@
+name: station-bar-api
+services:
+  solution:
+    build:
+      context: .
+      target: runtime
+    ports:
+      - "127.0.0.1:${BAR_SOLUTION_PORT:-8000}:8000"
+    environment:
+      BAR_DATA_FILE: /data/bar.json
+    volumes:
+      - solution-data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/openapi.json', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+  starter:
+    build:
+      context: .
+      target: runtime
+    profiles: [exercise]
+    command: ["python", "run.py", "starter", "--host", "0.0.0.0", "--reload"]
+    ports:
+      - "127.0.0.1:${BAR_STARTER_PORT:-8001}:8000"
+    environment:
+      BAR_DATA_FILE: /data/bar.json
+    volumes:
+      - starter-data:/data
+      - type: bind
+        source: ./starter
+        target: /app/starter
+        read_only: true
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/openapi.json', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+volumes:
+  solution-data:
+  starter-data:

@@ -1,0 +1,23 @@
+# Include only application sources and checks.
+**
+!Dockerfile
+!.dockerignore
+!run.py
+!check.py
+!pyproject.toml
+!solution/
+!solution/**
+!starter/
+!starter/**
+!checks/
+!checks/**
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+**/.git/
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/data.json
+**/data.tmp

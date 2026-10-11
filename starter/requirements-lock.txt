@@ -1,3 +1,8 @@
+# Reference snapshot of the original tested Windows environment.
+# Includes application packages, test tools and their indirect dependencies.
+# For the short application list, read requirements.txt; test tools are in requirements-test.txt.
+# Current Codespaces/local setup installs requirements-test.txt, not this snapshot.
+
 Pygments==2.21.0
 annotated-doc==0.0.5
 annotated-types==0.8.0

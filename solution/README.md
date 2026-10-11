@@ -1,9 +1,11 @@
-# Complete bar API
+# Complete reference API
 
-Start from the repository root with `python run.py solution`; see the [setup instructions](../README.md#run).
+In the Codespace terminal run `python run.py solution --host 0.0.0.0` from the repository root. Open port8000 in the Ports panel, then add /docs.
 
-Explore `main.py`, then `bar_api/api.py`, `models.py`, `service.py` and `storage.py`. The HTTP layer delegates business decisions to the service, which uses JSON-file storage. See the [walkthrough](../docs/demo-walkthrough.md) for requests to demonstrate.
+The reference supports menu/order CRUD. Only pending orders can be changed or deleted; referenced menu items cannot be deleted. ID and status are assigned by the server. Errors contain code and message. Order status transitions are a later extension.
 
-Menu items and orders support create, read, replace and delete. Only pending orders can be changed or deleted. A menu item referenced by an order cannot be deleted. ID and status are assigned by the server. Error bodies contain `code` and `message`.
+Follow the [contract activity](../exercises/01-api-contract.md), [code map](../docs/code-map.md) and [demonstration walkthrough](../docs/demo-walkthrough.md).
 
-`requirements.txt` pins the runtime dependencies. `requirements-test.txt` adds test dependencies; `requirements-lock.txt` records the complete tested Windows/Python environment and is retained for reference.
+Run `python check.py solution --full` for the full reference behaviour checks. requirements.txt pins runtime dependencies; requirements-test.txt adds checks; requirements-lock.txt records the original Windows test environment.
+
+[Setup and learning path](../README.md)

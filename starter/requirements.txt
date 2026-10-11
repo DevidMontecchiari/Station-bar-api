@@ -1,3 +1,9 @@
+# Main application packages. Start here when reading the dependencies.
+# == selects an exact version; pip also installs packages these depend on.
+
+# FastAPI: routes, request handling and automatic API documentation.
 fastapi==0.143.0
+# Pydantic: the request and response data models in bar_api/models.py.
 pydantic==2.14.0
+# Uvicorn: runs the application and listens for HTTP requests.
 uvicorn==0.54.0
