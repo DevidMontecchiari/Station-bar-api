@@ -9,15 +9,20 @@
   "overrideCommand": true,
   "forwardPorts": [
     8000,
-    8001
+    8001,
+    8002
   ],
   "portsAttributes": {
     "8000": {
-      "label": "Complete reference API",
+      "label": "JSON | Complete reference API",
       "onAutoForward": "notify"
     },
     "8001": {
-      "label": "Exercise starter API",
+      "label": "JSON | Exercise starter API",
+      "onAutoForward": "notify"
+    },
+    "8002": {
+      "label": "SQLite / ORM | Comparison API",
       "onAutoForward": "notify"
     }
   },

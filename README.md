@@ -6,9 +6,31 @@ The backend uses [FastAPI](https://fastapi.tiangolo.com/tutorial/first-steps/). 
 
 This repository is a running teaching reference used across several classes. The numbered exercises follow the same bar example from its API contract to implementation, validation and persistence. No SQL or ORM knowledge is required.
 
+## Choose the version: JSON files or SQLite
+
+| Version / folder | Where data is saved | Use it for | API port |
+| --- | --- | --- | --- |
+| **[Complete JSON solution](solution/README.md)** ? `solution/` | `solution/data.json` | The working menu/order backend; Exercise 4 opening demo and explanation (Parts A?B). | **8000** |
+| **[JSON exercise starter](starter/README.md)** ? `starter/` | `starter/data.json` | The earlier exercise: complete the order endpoint in Exercise 2. | **8001** |
+| **[SQLite / ORM comparison](extensions/orm/README.md)** ? `extensions/orm/` | `extensions/orm/data/bar.sqlite` | The smaller database example and query experiment (Parts D?E). | **8002** |
+
+The two JSON versions load and save a file directly. The ORM example uses SQLModel/SQLAlchemy to work with rows in SQLite. **All three APIs send and receive JSON over HTTP**; the distinction above is how they store data.
+
+Each version has separate saved data. The SQLite example is an optional comparison, with its own setup and a smaller set of endpoints. The complete JSON solution remains available for your project.
+
+## Current class: Persistence and databases (Exercise 4)
+
+Last class, we followed an order through the API and its business rules. This class asks **where that order is kept, what survives stopping the application, and when a database helps**.
+
+We start with a **lecturer demonstration** of the existing JSON solution. Then we explain storage choices and related records, read the ORM code together, and finally run the comparison and change one query. No SQL knowledge or local installation is required. Using an ORM in your project remains optional.
+
+**Begin with [Exercise 4, Part A: watch and predict](exercises/04-persistence.md#part-a---observe-json-persistence).** Follow the [A-E classroom stages](#where-to-work-in-this-lesson) and pause at each checkpoint. Open the [storage decision guide](docs/storage-choice.md) when we discuss the options in Part B.
+
+Already have a Codespace from last class? Follow the [update instructions](extensions/orm/README.md#update-an-existing-codespace) to get the new material while keeping your work. New to this repository? See [Open in GitHub Codespaces](#open-in-github-codespaces); setup for the ORM example comes later, in Part D.
+
 ## Start here
 
-**Follow the learning path:** [1. Contract](exercises/01-api-contract.md) → [Code map](docs/code-map.md) → [2. Endpoint](exercises/02-create-order.md) → [3. Validation and rules](exercises/03-validation-and-rules.md) → [4. Persistence (next class)](exercises/04-persistence.md).
+**Follow the learning path:** [1. Contract](exercises/01-api-contract.md) → [Code map](docs/code-map.md) → [2. Endpoint](exercises/02-create-order.md) → [3. Validation and rules](exercises/03-validation-and-rules.md) → [4. Persistence and databases](exercises/04-persistence.md).
 
 Use the **Previous / Next** links at the top and bottom of each guide to move between steps. **Learning path** brings you back here.
 
@@ -17,11 +39,35 @@ Use the **Previous / Next** links at the top and bottom of each guide to move be
 | [1 — Read the API contract](exercises/01-api-contract.md) | Identify the operation, required input, successful response and possible errors. |
 | [2 — Implement an order endpoint](exercises/02-create-order.md) | Complete `POST /orders` in the starter and check its behaviour. |
 | [3 — Validation and business rules](exercises/03-validation-and-rules.md) | Try successful and rejected requests; explain which layer decides. |
-| [4 — JSON persistence](exercises/04-persistence.md) | In the next class, inspect the saved data and check what survives an API restart. |
+| [4 — Persistence and databases](exercises/04-persistence.md) | Check restart persistence, map the same records to related tables, and explore an optional ORM setup. |
 
-**Current classroom task: [Exercise 2 — Implement an order endpoint](exercises/02-create-order.md).** Before editing, trace the supplied code using the [code map](docs/code-map.md), then [run the complete reference](#open-in-github-codespaces) and send an order. The exercise identifies the file to edit, the checks to run and the expected responses.
+### Where to work in this lesson
 
-`solution/` contains the **complete, runnable backend for the current class**: menu and order operations, validation, business rules and JSON storage. `starter/` is a **small order-creation exercise**, with three supplied read operations and one POST handler left to complete. Menu editing and order update/delete remain in the complete reference. **Edit `starter/` for your attempt.**
+[Exercise 4 classroom quick start](exercises/04-persistence.md#classroom-quick-start): where to open, which function to read or edit, commands and checks.
+
+**Follow the current part in class; pause at its checkpoint before starting the next.** Opening the guide does not mean completing the whole exercise immediately.
+
+| Part / block | Open | Start and stop |
+| --- | --- | --- |
+| A / 1: opening demonstration | [Observe JSON persistence](exercises/04-persistence.md#part-a---observe-json-persistence) | Watch the lecturer create/restart/retrieve. Stop after the prediction and observation; no student setup yet. |
+| B / 1: explanation | [Explain JSON storage](exercises/04-persistence.md#part-b---explain-json-storage) | Follow storage choices and seed/load/change/save. Stop when you can explain the observed result. |
+| C / 2: related records | [Relational sketch](exercises/04-persistence.md#part-c---sketch-related-records) | After keys/relationships, sketch the extra line and response. Pause for the debrief. |
+| D / 3: ORM walkthrough | [Classroom stages in the ORM guide](extensions/orm/README.md#classroom-stages) | Read the code first; then run on 8002 when introduced. Stop after the guided success/rejection checks. |
+| E / 4: query and project | [Change one query](exercises/04-persistence.md#part-e---change-one-query) | Predict/change/check `list_menu`; pause for the answer, then justify storage for one project operation. |
+
+Use the [version comparison above](#choose-the-version-json-files-or-sqlite) to match the folder and port to the current part. Start the ORM setup only when we reach Part D.
+
+**Revisit the previous class:** `starter/` on port **8001** remains the focused order-creation exercise. [Exercise 2](exercises/02-create-order.md), [validation and rules](exercises/03-validation-and-rules.md), the [Python refresher](starter/README.md#python-refresher) and the [code map](docs/code-map.md) remain available. Edit `starter/` when returning to Exercise 2; today's query experiment is in `extensions/orm/main.py`.
+
+For the next project steps, use the [FastAPI reading guide](exercises/04-persistence.md#fastapi-reading-for-the-next-steps): route organisation, tests, frontend integration, security and deployment. Read selectively as those topics enter the course.
+
+## Storage decision guide
+
+The same diagram appears in the slides. Use it to shortlist storage for **one project operation**, then explain the requirement behind your choice.
+
+[![Storage decision guide: whole-file access can suit JSON; related records and transactions suggest a relational candidate; local access and limited simultaneous writes suit the classroom SQLite example.](docs/images/storage-choice.svg)](docs/storage-choice.md)
+
+[Read the diagram and its sources](docs/storage-choice.md). JSON files and SQLite are the two paths demonstrated here; the other branches are further reading. SQLModel/SQLAlchemy describes how we program with mapped objects, separately from the storage choice.
 
 ## From exercises to the complete application
 
@@ -59,7 +105,7 @@ Expect `201`, a pending order and a `Location` header. Follow the returned ID wi
 
 Stop an API with Ctrl+C. Each version saves its own data.json in the codespace. See [Codespaces controls and reset](docs/codespaces.md).
 
-## Work on the starter
+## Earlier lesson: work on the starter
 
 Open [exercise 2](exercises/02-create-order.md) beside your editor and follow its steps. If it has been a while since you used Python, start with the [short Python refresher](starter/README.md#python-refresher). Run all commands from the repository root, where `run.py` and `check.py` are located.
 
@@ -104,14 +150,15 @@ In the design and deployment classes, we will revisit how to run and connect to 
 
 - [solution/](solution/README.md): complete menu/order CRUD, business rules, JSON storage and reference tests.
 - [starter/](starter/README.md): focused create/read exercise; complete the marked order-creation handler.
+- [extensions/orm/](extensions/orm/README.md): five-route SQLite/ORM comparison, including a query experiment and database tests.
 - [Code map](docs/code-map.md): responsibilities and the Spring comparison.
 - [Demonstration walkthrough](docs/demo-walkthrough.md): a longer sequence of requests.
 - [Postman collection](bar-api.postman_collection.json): supplied for later calls to the local API or a forwarded Codespaces URL. For this exercise, use the signed-in browser and `/docs`; see [later connection options](docs/codespaces.md#later-postman-and-frontend-connections).
 - [Teaching contract](solution/contracts/bar-api.published-v0.2.0.json) and [generated contract](solution/contracts/bar-api.generated.json). The live contract is at `/openapi.json`.
 
-The reference currently covers HTTP, application logic and JSON persistence. Frontend integration, authentication and Java/Spring alternatives are later stages.
+The repository covers HTTP, application logic, JSON persistence and a separate relational/ORM comparison. Frontend integration and authentication remain later stages. The Spring Boot/Java and PostgREST comparisons in the slides are optional reading; runnable versions are not supplied here.
 
-The dependency files separate the three main application packages from test tools and the recorded environment snapshot. See [why there are several requirements files](starter/README.md#why-are-there-several-requirements-files). Codespaces prepares these packages; no dependency editing is needed for the exercise.
+The dependency files separate the three main application packages from test tools and the recorded environment snapshot. See [why there are several requirements files](starter/README.md#why-are-there-several-requirements-files). Codespaces prepares the JSON example packages. The ORM guide installs its dependencies in a separate environment inside the Codespace; the earlier examples keep theirs.
 
 ## Scope and checks
 
