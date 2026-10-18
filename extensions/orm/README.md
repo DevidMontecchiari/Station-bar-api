@@ -2,7 +2,7 @@
 
 [Repository overview](../../README.md) > [Exercise 4: persistence](../../exercises/04-persistence.md) > **ORM example**
 
-**Storage: SQLite database through an ORM ? API port: 8002 ? Folder: `extensions/orm/`**
+**Storage: SQLite database through an ORM | API port: 8002 | Folder: `extensions/orm/`**
 
 Looking for the JSON version? Open the [complete JSON solution](../../solution/README.md), or compare [all three versions](../../README.md#choose-the-version-json-files-or-sqlite).
 
@@ -28,25 +28,50 @@ You still need to understand what a record represents, how IDs link records, and
 
 ## Run in your Codespace
 
-Use your own Codespace. No software installation on your laptop is required. This example uses a separate Python environment **inside the Codespace**, so the earlier exercises keep their dependencies.
+Use your own Codespace. No software installation on your laptop is required. This example uses a separate Python environment **inside the Codespace**, so the earlier exercises keep their dependencies. **The default Codespace Python is prepared for the JSON examples. The ORM packages are installed separately below.** Forwarding port8002 only makes the running API accessible; it does not install packages.
 
 ### Update an existing Codespace
 
-If your Codespace predates this lesson, save and commit your work first. Check Source Control for changes. For an unchanged clone of the teaching repository, `git pull --ff-only` retrieves additions; if you have a fork, sync your fork on GitHub first. If Git reports local changes or a conflict, stop and keep your work; ask for help or open a fresh Codespace beside it. Never reset or overwrite your exercise to obtain this example.
+Before starting, follow [Check, fetch and update your Codespace](../../docs/updating-your-codespace.md). It covers preserving your changes, syncing a fork and applying the new startup reminder. Reopening alone does not retrieve the new example. Return here for the Part D setup after updating.
 
 ### Start the ORM example in Part D
 
-Run these commands from the repository root:
+Run from the repository root (the folder containing `starter/`, `solution/` and `extensions/`).
+
+**1. Prepare the ORM environment once:**
 
 ```sh
 python -m venv extensions/orm/.venv
 extensions/orm/.venv/bin/python -m pip install -r extensions/orm/requirements.txt
+```
+
+**2. Start the API with that environment's Python, every time:**
+
+```sh
 extensions/orm/.venv/bin/python extensions/orm/run.py --host 0.0.0.0
 ```
 
+Use the full Python path shown above for both installation and launch; no activation command is required. Plain `python extensions/orm/run.py` uses whichever Python your terminal currently selects, which may be the JSON environment. The short command in `run.py` assumes its dependencies are already available in that interpreter.
+
+After reopening the same Codespace, use the start command again. Repeat the installation command when the ORM requirements change. If the environment is missing or no longer works after a container/Python update, recreate it and reinstall its requirements.
+
+### If you see `No module named sqlalchemy` or `sqlmodel`
+
+The selected Python environment does not have the ORM packages. Complete step1, then use the exact start command in step2. Installing packages with plain `pip` or another Python can put them in a different environment.
+
+To check which Python has the packages, stop the API with Ctrl+C and run:
+
+```sh
+extensions/orm/.venv/bin/python -c "import sys, sqlalchemy, sqlmodel; print(sys.executable)"
+```
+
+The printed path should point inside `extensions/orm/.venv`. If an import fails, rerun the installation command above. Installing ORM packages in the global Codespace Python may make a plain launch work, but the documented workflow keeps them isolated from the earlier exercises.
+
+### Open and stop the API
+
 In **Ports**, open **8002**, then append `/docs`. If absent, add/forward port 8002 manually. Keep it Private. Ports 8000 and 8001 belong to the earlier JSON solution and starter; 8002 lets this database variant run alongside them. This is a separate API process, not a database server port. SQLite runs within this process.
 
-Stop with Ctrl+C. Restart using the third command. The file `extensions/orm/data/bar.sqlite` stays in this Codespace; deleting the Codespace or the data file loses this demo data. It is ignored by Git. This example starts with the same three menu items and **no orders**. Use the returned order ID, not a fixed number.
+Stop with Ctrl+C. Restart using the start command from step2. The file `extensions/orm/data/bar.sqlite` stays in this Codespace; deleting the Codespace or the data file loses this demo data. It is ignored by Git. This example starts with the same three menu items and **no orders**. Use the returned order ID, not a fixed number.
 
 Optional local Windows route, after Python is installed:
 
@@ -112,7 +137,13 @@ The ordinary `menu_item_id` field stores a foreign key. We deliberately use expl
 
 ## Predict, run, inspect, explain
 
-Use Swagger UI for the requests below.
+Use Swagger UI on port8002 for the requests below. To see what is saved, keep the [database viewer](#browse-the-tables-in-vs-code) or a second terminal beside it. The viewer is optional. From the repository root, the supplied read-only fallback is:
+
+```sh
+extensions/orm/.venv/bin/python extensions/orm/inspect_data.py
+```
+
+Refresh/reopen the viewer or rerun the script after an operation. It prints joined order lines, not all tables; no result rows before you create an order is normal. The [written inspection checklist in Exercise4](../../exercises/04-persistence.md#inspect-what-was-saved) follows the same sequence.
 
 1. **Read:** GET `/menu-items`. Which menu item is unavailable?
 2. **Create:** POST `/orders` with the JSON below. Expect 201, a generated ID and a Location header.
@@ -121,13 +152,13 @@ Use Swagger UI for the requests below.
 {"table": 3, "items": [{"menu_item_id": 1, "quantity": 2}]}
 ```
 
-3. **Inspect:** GET `/orders/{order_id}` using the returned ID. Match its `items` to the `BarOrder` and `OrderLine` objects in `service.py`. Identify the order ID, table number, menu-item reference and quantity. No SQL command is needed.
+3. **Inspect:** GET `/orders/{order_id}` using the returned ID. Match its `items` to the `BarOrder` and `OrderLine` objects in `service.py`. Identify the order ID, table number, menu-item reference and quantity. No SQL command is needed. Then inspect the saved rows: match `bar_order.id` with `order_line.order_id`, and `order_line.menu_item_id` with `menu_item.id`. For the request above, expect one new order and one line with quantity2. With the script, find the matching `order_id`, `table_number`, item name and `quantity` in its output.
 
-4. **Restart:** stop and restart the ORM API. Predict and verify whether the order is still present.
-5. **Update:** PATCH `/menu-items/1` with `{"available": false}`. Try the order again. Explain why 409 comes from a business rule rather than from a missing foreign key.
+4. **Restart:** stop and restart the ORM API. Predict and verify whether the order is still present. Retrieve the same ID, then refresh/reopen the viewer or rerun the script; compare the saved ID and quantity. Keep the database file unchanged.
+5. **Update:** PATCH `/menu-items/1` with `{"available": false}`. Try the order again. Explain why 409 comes from a business rule rather than from a missing foreign key. In the viewer, check the changed `menu_item.available` value. Compare saved orders/lines before and after the rejected POST: no new rows should appear. This rejection happens before writes, so it is different from rolling back a failed save.
 **Part D checkpoint:** pause after step 5. Explain the successful order and the rejection; keep the menu state for Part E after the break. The deletion below is optional follow-up.
 
-6. **Optional delete:** DELETE the order you created. Expect 204; reading it now returns 404. Its order lines are deleted in the same transaction.
+6. **Optional delete:** DELETE the order you created. Expect 204; reading it now returns 404. Its order lines are deleted in the same transaction. Refresh/reopen the tables or rerun the script: that order and its lines are gone. In the viewer, confirm that the menu item remains.
 7. **Explain:** which JSON response fields stayed familiar, which tables were written, and which part of the application decided whether the order was allowed?
 
 ## Class experiment: filter the menu
@@ -147,7 +178,7 @@ select(MenuItem).order_by(MenuItem.id)
    ```
 
    This example does **not** reload automatically. Open **8002 /docs** and execute `GET /menu-items` again; compare its IDs with your prediction.
-4. Explain whether any rows were deleted and why order creation must still check availability.
+4. **Compare stored and returned data:** if using the viewer, refresh/reopen `menu_item` and compare its stored IDs with the filtered response. Unavailable rows remain stored. Without the viewer, explain this from the query expression and your before/after responses; the order-line script does not list the whole menu. Explain why order creation must still check availability.
 
 Bring back your **predicted IDs, observed IDs and explanation**. Use your actual data: after the demo disables coffee, your result differs from the initial seed.
 
@@ -184,13 +215,34 @@ Tests use temporary databases and cover restart persistence, input validation, a
 
 ## Optional: inspect SQL and database rows
 
-This section is extra material. It is not needed to complete the class experiment.
+This section is extra material. It is not needed to complete the class experiment. Use Swagger UI to perform operations; use a database view to observe what was saved. The API response and the stored rows are two different views of the same operation.
 
-The supplied read-only inspection script runs SQL and prints the related rows. If you want to compare them with the API response, run it in another Codespace terminal:
+### Browse the tables in VS Code
+
+An optional choice is [SQLite Viewer by qwtel](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer), extension ID `qwtel.sqlite-viewer`. Its documented free viewer works in VS Code for Web and displays tables without writing SQL. It is not currently installed by this repository's devcontainer configuration. The extension also offers paid features; this walkthrough only needs viewing.
+
+1. In your Codespace's **Extensions** view, find that exact extension and install it there.
+2. Start the ORM API using the separate environment described above. In Explorer, open `extensions/orm/data/bar.sqlite`; if necessary use **Open With...** and choose SQLite Viewer. If you set `BAR_ORM_DB`, open that database file instead.
+3. Inspect the `menu_item`, `bar_order` and `order_line` tables. A fresh example has three menu items and no orders; an existing database may already contain your earlier changes.
+4. Send a request in Swagger on port8002, then refresh/reopen the database view before comparing rows. The viewer caches data, so do not treat an unchanged open tab as evidence that the operation failed. Use the terminal inspection below if the view remains stale.
+
+| Operation through Swagger | What to look for in the tables |
+| --- | --- |
+| Create one order containing two coffees | One new `bar_order` row and one `order_line` row with `quantity=2`; match `order_id` and `menu_item_id`. Two units do not mean two separate lines. |
+| Set menu item1 to unavailable, then try ordering it | The menu row changes. The rejected order adds no order or line rows: the application checks this rule before writing. This rejection does not itself demonstrate a database rollback. |
+| Optional: delete the created order | Its order row and associated lines disappear together; the menu item remains. |
+
+Make changes through the API so its business rules run; use the viewer to observe them. No database-server port is needed: SQLite is a file used by the application. The viewer's documented web compatibility has been checked; this exact Codespace UI workflow still needs a classroom rehearsal.
+
+### Inspect saved order lines without installing an extension
+
+The supplied read-only inspection script runs its built-in query and prints saved order lines with their order ID, table, menu-item name and quantity. No SQL writing is needed. With no orders it prints the query but no result rows; it is not a browser for every table. Run it again after an operation to get fresh results, in another Codespace terminal:
 
 ```sh
 extensions/orm/.venv/bin/python extensions/orm/inspect_data.py
 ```
+
+### See the ORM operations in the terminal
 
 To see SQL in the Codespace terminal, stop the API and restart it with:
 
@@ -198,7 +250,9 @@ To see SQL in the Codespace terminal, stop the API and restart it with:
 BAR_SQL_ECHO=1 extensions/orm/.venv/bin/python extensions/orm/run.py --host 0.0.0.0
 ```
 
-SQL logging is optional demonstration material, not required project configuration.
+SQL logging is optional demonstration material, not required project configuration. This uses SQLAlchemy engine logging: it shows issued statements and transaction events, rather than a table browser. See [SQLAlchemy logging](https://docs.sqlalchemy.org/en/20/core/engines.html#configuring-logging).
+
+For a later code walkthrough, the [VS Code Python debugger](https://code.visualstudio.com/docs/python/debugging) can stop in `service.py` to inspect objects before and after `flush()`/`commit()`. Configure it with the ORM environment interpreter. Debugger variables show application state; they are not evidence that another database connection can already read uncommitted rows. Debugger setup is not required for this lesson.
 
 ## Scope and further study
 

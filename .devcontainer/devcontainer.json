@@ -32,8 +32,13 @@
         "ms-python.python"
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python"
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "git.autofetch": true
       }
     }
-  }
+  },
+  "postAttachCommand": [
+    "python",
+    "${containerWorkspaceFolder}/.devcontainer/class_start.py"
+  ]
 }

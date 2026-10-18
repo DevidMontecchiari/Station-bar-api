@@ -24,9 +24,9 @@ Last class, we followed an order through the API and its business rules. This cl
 
 We start with a **lecturer demonstration** of the existing JSON solution. Then we explain storage choices and related records, read the ORM code together, and finally run the comparison and change one query. No SQL knowledge or local installation is required. Using an ORM in your project remains optional.
 
-**Begin with [Exercise 4, Part A: watch and predict](exercises/04-persistence.md#part-a---observe-json-persistence).** Follow the [A-E classroom stages](#where-to-work-in-this-lesson) and pause at each checkpoint. Open the [storage decision guide](docs/storage-choice.md) when we discuss the options in Part B.
+**Begin with [Exercise 4, Part A: watch and predict](exercises/04-persistence.md#part-a---observe-json-persistence).** Follow the [A-E classroom stages](#where-to-work-in-this-lesson) with the lecturer. Open the [storage decision guide](docs/storage-choice.md) when we discuss the options in Part B.
 
-Already have a Codespace from last class? Follow the [update instructions](extensions/orm/README.md#update-an-existing-codespace) to get the new material while keeping your work. New to this repository? See [Open in GitHub Codespaces](#open-in-github-codespaces); setup for the ORM example comes later, in Part D.
+**Reopening a Codespace? Check for teaching updates first.** Follow the [check, fetch and update guide](docs/updating-your-codespace.md) to keep your work and get the new material. Reopening alone does not pull changes; the startup terminal reminder helps you remember. New to this repository? See [Open in GitHub Codespaces](#open-in-github-codespaces); setup for the ORM example comes later, in Part D.
 
 ## Start here
 
@@ -45,7 +45,7 @@ Use the **Previous / Next** links at the top and bottom of each guide to move be
 
 [Exercise 4 classroom quick start](exercises/04-persistence.md#classroom-quick-start): where to open, which function to read or edit, commands and checks.
 
-**Follow the current part in class; pause at its checkpoint before starting the next.** Opening the guide does not mean completing the whole exercise immediately.
+**Watch the opening demo. Then follow each part with the lecturer.** At the end of a student activity, stop where its instructions indicate and join the debrief before starting the next part.
 
 | Part / block | Open | Start and stop |
 | --- | --- | --- |
@@ -79,7 +79,7 @@ That final download is not available yet. The current `solution/` is the complet
 
 ## Open in GitHub Codespaces
 
-**No local installation is required for this class.** You only need a browser and your GitHub account with Codespaces access. Each student (or pair) works in their own Codespace, which provides VS Code, Python and the project dependencies in the browser. You do not need to install Python, VS Code or Docker on your computer.
+**No local installation is required for this class.** You only need a browser and your GitHub account with Codespaces access. Each student (or pair) works in their own Codespace, which provides VS Code, Python and the JSON example dependencies in the browser. The optional ORM example has its own setup inside that Codespace. You do not need to install Python, VS Code or Docker on your computer.
 
 Use the repository link shared for class, not the lecturer's Codespace or forwarded-port URL. GitHub clones the project into your new Codespace automatically: a local clone is not required. If you want your own repository for saving changes, fork the shared repository first and create the Codespace from your fork.
 
@@ -93,6 +93,8 @@ python run.py solution --host 0.0.0.0
 
 4. In **Ports**, open port **8000** in your browser and add **/docs** to the forwarded address. Keep port visibility **Private**.
 
+**For the SQLite / ORM example on port8002, use its [separate environment setup and launch commands](extensions/orm/README.md#start-the-orm-example-in-part-d).** The default Python above contains the JSON example dependencies; it does not prepare the ORM environment.
+
 This opens the complete **solution**. Use the forwarded address from Codespaces; localhost on your laptop is a different location. [Codespaces guide](docs/codespaces.md).
 
 In Swagger UI, open **GET /menu-items/{menu_item_id}**, select **Try it out**, enter `1`, and execute. Then open **POST /orders** and send:
@@ -103,7 +105,7 @@ In Swagger UI, open **GET /menu-items/{menu_item_id}**, select **Try it out**, e
 
 Expect `201`, a pending order and a `Location` header. Follow the returned ID with **GET /orders/{order_id}**. Use the ID in your response; it changes as orders are added.
 
-Stop an API with Ctrl+C. Each version saves its own data.json in the codespace. See [Codespaces controls and reset](docs/codespaces.md).
+Stop an API with Ctrl+C. The JSON starter and solution each save their own `data.json` in the Codespace; the optional ORM example saves a separate SQLite file. See [Codespaces controls and reset](docs/codespaces.md).
 
 ## Earlier lesson: work on the starter
 

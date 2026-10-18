@@ -10,7 +10,7 @@ The [repository overview](../README.md#where-to-work-in-this-lesson) shows which
 
 Open the **Station Bar API link on Moodle**, then this exercise from the repository README. Open your **own Codespace** to run or edit; a GitHub code link is for reading the reference. Earlier exercises and the JSON starter/solution remain available.
 
-This guide accompanies the whole lesson. **Start only the part introduced in class and pause at its checkpoint.** The opening demonstration is on the lecturer's screen; there is no student setup task at the start.
+This guide accompanies the whole lesson. **Watch the opening demo, then follow each part with the lecturer.** At the end of an activity, stop where indicated and join the debrief before continuing. There is no student setup task at the start.
 
 | Part / teaching block | Start here | Finish this part when... | Continue when introduced |
 | --- | --- | --- | --- |
@@ -118,6 +118,25 @@ Follow our [runnable bar ORM guide](../extensions/orm/README.md). Read the code 
 
 Use Python classes and ORM methods. The ORM generates SQL; writing SQL statements or inspecting generated SQL is further exploration.
 
+### Inspect what was saved
+
+Keep these instructions open beside the [guided requests](../extensions/orm/README.md#predict-run-inspect-explain). Use **Swagger on port8002** to change data, then inspect the saved result. You do not need to write SQL.
+
+1. **Choose a view:** follow [Browse the tables in VS Code](../extensions/orm/README.md#browse-the-tables-in-vs-code) to open `extensions/orm/data/bar.sqlite`, or use the supplied read-only script in a second terminal from the repository root:
+
+   ```sh
+   extensions/orm/.venv/bin/python extensions/orm/inspect_data.py
+   ```
+
+   The viewer shows all three tables. The script prints saved order lines with their order ID, table, item name and quantity; it does not show every table or the availability field. It requires no extra extension. Before any orders exist, it prints its query but no result rows.
+2. **After creating the order:** refresh/reopen the viewer, or rerun the script. Find the returned order ID. In the viewer, match `bar_order.id` to `order_line.order_id`, then `order_line.menu_item_id` to `menu_item.id`. Two coffees in this request produce one line with `quantity=2`.
+3. **After restarting the API:** retrieve the same order in Swagger and inspect the saved data again. Keep the database file; do not reset it. The ID and quantity should still match.
+4. **After making coffee unavailable:** inspect `menu_item.available` in the viewer, if using it. Attempt the order again and compare the saved order lines before and after the rejection. No new order or line should appear. The service rejects this request before writing; this is not the failed-write rollback demonstration.
+5. **Explain one observation:** connect a response field to its stored row, and explain one change that did or did not occur. Use your current data and returned IDs, rather than assuming the example starts empty.
+
+The viewer is optional and may cache data: refresh/reopen after requests. If it is unavailable, use the script for the order checks. Make changes through the API and use inspection to observe them. The [inspection guide](../extensions/orm/README.md#optional-inspect-sql-and-database-rows) also covers optional SQL logging and deletion checks.
+
+
 **Part D checkpoint - pause here:** complete the guided success/read/restart/rejection checks on port 8002. Keep the current menu state for the next activity. Do not change `list_menu` yet; optional DELETE is available for later exploration. After the third break, begin Part E.
 
 ## Part E - Change one query
@@ -125,6 +144,8 @@ Use Python classes and ORM methods. The ORM generates SQL; writing SQL statement
 **Mode: pairs, after the third break.** Open `extensions/orm/main.py`, find `list_menu` inside `create_app`, and change only its query expression.
 
 For the final pair activity, [filter the menu](../extensions/orm/README.md#class-experiment-filter-the-menu): predict the returned IDs from your current data, change the query in `extensions/orm/main.py`, restart and compare. Explain why a filtered-out row is still stored. The guide includes a collapsible worked answer.
+
+**Inspect the difference, if using the viewer:** refresh/reopen `menu_item` after the filtered GET. Compare its stored IDs with the IDs in the API response. An unavailable item can remain in the table while disappearing from the response. Do not delete rows to obtain the filtered result. The order-line script above does not list all menu items; this particular visual check uses the table viewer. Without it, explain the distinction from the read-only query expression and your before/after responses.
 
 **Part E checkpoint - pause here:** bring back predicted IDs, observed IDs and an explanation of why a hidden row still exists. Open the worked answer after your attempt. Then use the short project discussion below; the further-reading sections are optional.
 
