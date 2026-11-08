@@ -18,6 +18,8 @@ Reopening this Codespace does not update your exercise files.
 
 Open docs/updating-your-codespace.md for the steps, then README.md for
 this class's activity and the JSON / SQLite folder and port comparison.
+After updating: python start_class.py starts the prepared class examples.
+Guide: docs/class-start.md. Stop older demo terminals first if ports are busy.
 
 This reminder does not pull or push. The editor can fetch in the background.
 """)

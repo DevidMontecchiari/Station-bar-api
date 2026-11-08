@@ -14,3 +14,6 @@ Thumbs.db
 
 # Optional frontend environment
 .venv-frontend/
+
+# Class launcher logs (environments above stay separate)
+.classroom/

@@ -6,6 +6,12 @@ This is the walkthrough for **[Exercise 5](../../exercises/05-frontend.md)**. In
 
 [Setup](#1-update-and-prepare-once) | [Run](#2-run-one-example-at-a-time) | [Inspect](#3-observe-inspect-then-stop) | [Extend](#4-extend-one-small-part) | [Coaching](#5-prepare-for-coaching)
 
+## Quick start for this class
+
+From the repository root, run `python start_class.py` once, then use its labelled browser links. It prepares the separate environments and starts the SQLite recap, JSON API, all three interfaces and styling comparison. Keep the terminal open; stop with Ctrl+C. For just the frontend examples, use `python start_class.py --only frontend`. **[Class startup and SQLite inspection](../../docs/class-start.md)** explains ports and troubleshooting.
+
+The numbered setup/run sections below are the **manual alternative**; you do not need to run those commands as well.
+
 ## What this teaching update adds
 
 | Example | Port | Start reading | Where the result is produced |
@@ -24,7 +30,7 @@ The table links open **source files**, not live previews on GitHub. Start the se
 
 [Open the guide and files](style-comparison/README.md) to compare two ready versions of the same static order form. The desktop and mobile screenshots come from those files. Both share the same JavaScript and fictional menu; only their layout and control styling differ.
 
-For a downloaded copy, open `style-comparison/index.html` in a browser after extracting all files. Bootstrap CSS is included locally, so the comparison works offline and needs no API or package installation. On GitHub, the HTML link shows source; the guide explains the Codespaces preview on port **8090**. The three rendering examples below remain the main Exercise 5 walkthrough.
+For a downloaded copy, open `style-comparison/index.html` in a browser after extracting all files. Bootstrap CSS is included locally, so the comparison works offline and needs no API or package installation. On GitHub, the HTML link shows source; the class launcher starts its Codespaces preview on port **8090**. The guide retains the standalone command. The three rendering examples below remain the main Exercise 5 walkthrough.
 
 ## 1. Update and prepare once
 

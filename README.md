@@ -8,6 +8,14 @@ This repository is a running teaching reference used across several classes. The
 
 ## Current class: From prototype to frontend (Exercise 5)
 
+From the repository root, start the prepared examples with one command:
+
+```sh
+python start_class.py
+```
+
+The launcher prepares separate frontend/ORM environments, starts the examples and prints their browser links. Keep its terminal open; **Ctrl+C stops this run and keeps saved data**. Stop previously started examples first if their ports are occupied. See **[Class startup and SQLite inspection](docs/class-start.md)** for the port map, first-run setup and viewer steps. You can also use **Terminal > Run Task > Station Bar: start this class**.
+
 **New in this teaching update:** three small interfaces for the same order workflow, shared visuals, exact launch commands and screenshots. The existing backend and earlier exercises remain available.
 
 | Start here | What you will find |
@@ -29,7 +37,7 @@ extensions/frontend/
   shared/                       Shared style, images and screenshots
 ```
 
-**Reopening a Codespace?** [Check for updates safely](docs/updating-your-codespace.md). Use the frontend guide's separate virtual environment and its Python; forwarding a port does not install packages. The closing classroom demo compares prepared versions. Setup and small extensions are optional independent follow-up; there is no timed coding task in class.
+**Reopening a Codespace?** [Check for updates safely](docs/updating-your-codespace.md). The launcher manages the separate environments; forwarding a port alone does not install packages or start an API. The closing classroom demo compares prepared versions. Setup and small extensions are optional independent follow-up; there is no timed coding task in class.
 
 ### How the interfaces connect
 

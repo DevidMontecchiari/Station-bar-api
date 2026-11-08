@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Station Bar: start this class",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/start_class.py"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated", "clear": true},
+      "runOptions": {"instanceLimit": 1}
+    },
+    {
+      "label": "Station Bar: SQLite recap only",
+      "type": "process",
+      "command": "python",
+      "args": ["${workspaceFolder}/start_class.py", "--only", "orm"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated", "clear": true},
+      "runOptions": {"instanceLimit": 1}
+    }
+  ]
+}

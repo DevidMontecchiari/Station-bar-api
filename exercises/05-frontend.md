@@ -6,7 +6,7 @@
 
 ## Setup
 
-Fork or safely update Station Bar, then follow the [environment and startup instructions](../extensions/frontend/README.md#1-update-and-prepare-once). Run the existing JSON API and one connected interface. Reuse your prepared fork and environment if these steps are already complete.
+Fork or safely update Station Bar, then run `python start_class.py` from its root. It prepares the environments and starts the examples; open a labelled port from the printed list. See [Class startup and SQLite inspection](../docs/class-start.md) for the exact workflow. The [individual commands](../extensions/frontend/README.md#1-update-and-prepare-once) remain an alternative; do not start a second copy of the same server.
 
 Use these instructions when you want to run the examples yourself. The lecturer uses prepared examples for the classroom comparison.
 

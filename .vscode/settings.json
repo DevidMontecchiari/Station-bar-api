@@ -1,0 +1,32 @@
+{
+  "remote.portsAttributes": {
+    "8000": {
+      "label": "API - JSON storage (/docs)",
+      "onAutoForward": "silent"
+    },
+    "8001": {
+      "label": "Earlier exercise - starter (/docs)",
+      "onAutoForward": "silent"
+    },
+    "8002": {
+      "label": "Recap - SQLite ORM (/docs)",
+      "onAutoForward": "silent"
+    },
+    "8080": {
+      "label": "1 - Static prototype (simulated)",
+      "onAutoForward": "silent"
+    },
+    "8081": {
+      "label": "2 - Browser + API (saved)",
+      "onAutoForward": "silent"
+    },
+    "8082": {
+      "label": "3 - Jinja pages (saved)",
+      "onAutoForward": "silent"
+    },
+    "8090": {
+      "label": "Styles - Custom CSS / Bootstrap",
+      "onAutoForward": "silent"
+    }
+  }
+}

@@ -26,6 +26,12 @@ FastAPI handles HTTP requests. SQLModel, built on SQLAlchemy, provides the objec
 
 You still need to understand what a record represents, how IDs link records, and which changes belong in one transaction. The class introduces those concepts. SQL text and SQL inspection are optional exploration for students who already know SQL or want to investigate further.
 
+## Frontend-class recap: one-command startup
+
+Run `python start_class.py` from the repository root for all the prepared frontend-class examples, or `python start_class.py --only orm` for this SQLite example alone. The launcher prepares the separate ORM environment and prints the port8002 Swagger link. Startup creates `extensions/orm/data/bar.sqlite`; that Git-ignored directory is absent from a fresh clone. The JSON frontend API on8000 uses a different data file. Follow [Class startup and SQLite inspection](../../docs/class-start.md) to create an order and refresh the table viewer.
+
+The original classroom stages and individual setup commands below remain available for the persistence lesson and independent work. Use either the launcher or the individual commands, not both at once.
+
 ## Run in your Codespace
 
 Use your own Codespace. No software installation on your laptop is required. This example uses a separate Python environment **inside the Codespace**, so the earlier exercises keep their dependencies. **The default Codespace Python is prepared for the JSON examples. The ORM packages are installed separately below.** Forwarding port8002 only makes the running API accessible; it does not install packages.

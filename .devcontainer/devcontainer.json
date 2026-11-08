@@ -9,42 +9,47 @@
   "overrideCommand": true,
   "forwardPorts": [
     8000,
-    8001,
     8002,
     8080,
     8081,
-    8082
+    8082,
+    8090
   ],
   "portsAttributes": {
     "8000": {
-      "label": "JSON | Complete reference API",
-      "onAutoForward": "notify"
+      "label": "API - JSON storage (/docs)",
+      "onAutoForward": "silent"
     },
     "8001": {
-      "label": "JSON | Exercise starter API",
-      "onAutoForward": "notify"
+      "label": "Earlier exercise - starter (/docs)",
+      "onAutoForward": "silent"
     },
     "8002": {
-      "label": "SQLite / ORM | Comparison API",
-      "onAutoForward": "notify"
+      "label": "Recap - SQLite ORM (/docs)",
+      "onAutoForward": "silent"
     },
     "8080": {
-      "label": "Frontend | Static prototype",
-      "onAutoForward": "notify"
+      "label": "1 - Static prototype (simulated)",
+      "onAutoForward": "silent"
     },
     "8081": {
-      "label": "Frontend | Browser fetch",
-      "onAutoForward": "notify"
+      "label": "2 - Browser + API (saved)",
+      "onAutoForward": "silent"
     },
     "8082": {
-      "label": "Frontend | Jinja2",
-      "onAutoForward": "notify"
+      "label": "3 - Jinja pages (saved)",
+      "onAutoForward": "silent"
+    },
+    "8090": {
+      "label": "Styles - Custom CSS / Bootstrap",
+      "onAutoForward": "silent"
     }
   },
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-python.python"
+        "ms-python.python",
+        "qwtel.sqlite-viewer"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/usr/local/bin/python",

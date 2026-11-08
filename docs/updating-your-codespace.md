@@ -46,3 +46,7 @@ New Codespaces created from a repository containing this update already use the 
 The startup reminder only prints guidance. Background fetch does not automatically pull, merge or push.
 
 References: [VS Code: working with remotes](https://code.visualstudio.com/docs/sourcecontrol/repos-remotes), [GitHub: syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork), [GitHub: rebuilding a Codespace](https://docs.github.com/en/codespaces/developing-in-a-codespace/rebuilding-the-container-in-a-codespace).
+
+## Start the current frontend class
+
+After reviewing and pulling the teaching update, run `python start_class.py` from the repository root. See [Class startup and SQLite inspection](class-start.md). No container rebuild is needed to run the launcher. Existing server processes must be stopped with Ctrl+C before starting the same ports again; changing port forwarding does not stop them. The workspace port settings provide the current labels; add a missing port manually if needed.
