@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="590" viewBox="0 0 1080 590" role="img" aria-labelledby="title desc">
+<title id="title">Three interfaces, one existing backend</title><desc id="desc">Component-style overview. Static prototype has no business API connection. Fetch uses a proxy; Jinja2 renders on the server. Both connected interfaces call one backend that alone owns the JSON file.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#245e55" stroke-width="1.5"/></marker></defs>
+<rect width="1080" height="590" fill="#faf7f0"/>
+<style>text{font-family:Arial,sans-serif;fill:#23374d}.heading{font-size:25px;font-weight:bold}.label{font-size:18px}.small{font-size:16px}.life{stroke:#7b898a;stroke-dasharray:6 5}.message{stroke:#245e55;stroke-width:2;marker-end:url(#arrow)}.return{stroke-dasharray:7 4}</style>
+<text x="28" y="40" class="heading">Three interfaces, one existing backend</text>
+<rect x="30" y="85" width="570" height="105" rx="6" fill="#e5eeea" stroke="#245e55"/>
+<text x="45" y="115" class="label">Static prototype - served on 8080</text>
+<text x="45" y="140" class="label">HTML/CSS/JS in the browser; simulated order result.</text>
+<text x="45" y="165" class="label">Reload clears the result. No business API call.</text>
+<rect x="30" y="240" width="240" height="95" rx="6" fill="#e5eeea" stroke="#245e55"/>
+<text x="45" y="270" class="label">Browser + fetch</text>
+<text x="45" y="295" class="label">Updates the DOM</text>
+<text x="45" y="320" class="label">from response JSON</text>
+<rect x="355" y="240" width="245" height="95" rx="6" fill="#e5eeea" stroke="#245e55"/>
+<text x="370" y="270" class="label">Frontend proxy :8081</text>
+<text x="370" y="295" class="label">Forwards /api requests</text>
+<text x="370" y="320" class="label">No business rules</text>
+<line x1="270" y1="285" x2="355" y2="285" class="message"/>
+<text x="278" y="273" class="small">JSON</text>
+<rect x="30" y="410" width="240" height="95" rx="6" fill="#e5eeea" stroke="#245e55"/>
+<text x="45" y="440" class="label">Browser + form</text>
+<text x="45" y="465" class="label">Submits ordinary form</text>
+<text x="45" y="490" class="label">Receives new HTML</text>
+<rect x="355" y="410" width="245" height="95" rx="6" fill="#e5eeea" stroke="#245e55"/>
+<text x="370" y="440" class="label">Jinja2 server :8082</text>
+<text x="370" y="465" class="label">Calls API; renders</text>
+<text x="370" y="490" class="label">template with data</text>
+<line x1="270" y1="455" x2="355" y2="455" class="message"/>
+<text x="278" y="443" class="small">Form</text>
+<rect x="740" y="240" width="310" height="265" rx="6" fill="#e5eeea" stroke="#245e55"/>
+<text x="755" y="270" class="label">Existing API :8000</text>
+<text x="755" y="295" class="label">Validation and business rules</text>
+<text x="755" y="320" class="label"></text>
+<text x="755" y="345" class="label">JSON storage</text>
+<text x="755" y="370" class="label">solution/data.json</text>
+<text x="755" y="395" class="label"></text>
+<text x="755" y="420" class="label">Only this backend writes data.</text>
+<line x1="600" y1="285" x2="740" y2="285" class="message"/>
+<text x="608" y="273" class="small">HTTP / JSON</text>
+<line x1="600" y1="455" x2="740" y2="455" class="message"/>
+<text x="608" y="443" class="small">HTTP / JSON</text>
+<text x="30" y="550" class="small">Arrows show request dependencies. Responses return along the same connections.</text>
+<text x="30" y="575" class="small">Ports belong to server processes; all versions use HTML/CSS in the browser.</text>
+</svg>

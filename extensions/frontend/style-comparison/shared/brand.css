@@ -1,0 +1,14 @@
+/* Shared identity only; the two versions supply their own layout/control styles. */
+body { background: #faf7f0; color: #23374d; font-family: system-ui, sans-serif; }
+.brand-header { border-bottom: 1px solid #d8d8cf; }
+.brand-header a { color: #245e55; font-size: .85rem; }
+.brand-hero h1 { font-size: clamp(30px, 4vw, 42px); line-height: 1.08; font-weight: 700; }
+.brand-hero p { margin: 12px 0; }
+.brand-hero img { width: 100%; max-width: 240px; height: 185px; object-fit: contain; }
+.variant { background: #e5eeea; color: #245e55; }
+.menu-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #e2dfd5; }
+.menu-row span:last-child { white-space: nowrap; }
+.trace, .page-footer { color: #536474; font-size: 14px; }
+#result { min-height: 60px; }
+#result.error { color: #8c3522; background: #fff0e9; }
+@media (max-width: 767px) { .brand-hero img { height: 100px; } }

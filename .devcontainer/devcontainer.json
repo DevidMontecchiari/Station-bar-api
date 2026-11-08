@@ -10,7 +10,10 @@
   "forwardPorts": [
     8000,
     8001,
-    8002
+    8002,
+    8080,
+    8081,
+    8082
   ],
   "portsAttributes": {
     "8000": {
@@ -23,6 +26,18 @@
     },
     "8002": {
       "label": "SQLite / ORM | Comparison API",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "Frontend | Static prototype",
+      "onAutoForward": "notify"
+    },
+    "8081": {
+      "label": "Frontend | Browser fetch",
+      "onAutoForward": "notify"
+    },
+    "8082": {
+      "label": "Frontend | Jinja2",
       "onAutoForward": "notify"
     }
   },

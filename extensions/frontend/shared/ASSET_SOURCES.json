@@ -1,0 +1,19 @@
+{
+  "purpose": "Shared artwork used by the implemented static, fetch/proxy and Jinja2 frontend variants. Artwork provenance is separate from runtime and release validation.",
+  "generation": "Built-in image_gen; existing CW43 bar-data illustration used as style reference.",
+  "prompt": "Match tactile cut-paper/soft 3D navy, cream, teal and terracotta cafe style. Compact espresso machine, two cups on tray, tablet with abstract menu cards, small plant. No text, logos, drawers, database icons or arrows; transparent background.",
+  "assets": [
+    {
+      "file": "espresso-macchiato-v1.png",
+      "sha256": "60245981e3cf0601fdaf76e041cdca1766ba88293f6594f7c40c8d057ca68cab"
+    },
+    {
+      "file": "station-bar-data-v1.png",
+      "sha256": "d8f9633f58ecd8438fc93ac2ebb3153bcb5e6b2cd8b57d23383b058885eac619"
+    },
+    {
+      "file": "station-bar-frontend-v1.png",
+      "sha256": "6ab7c8206b0f8f2fc74406b2595c9fdc1b779c18a610ab46901ee3af778ea5b3"
+    }
+  ]
+}

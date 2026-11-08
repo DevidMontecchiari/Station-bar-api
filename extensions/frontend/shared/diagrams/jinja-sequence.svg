@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="720" viewBox="0 0 1080 720" role="img" aria-labelledby="title desc">
+<title id="title">Server + Jinja2: submit a form, then retrieve an HTML result</title><desc id="desc">Simplified UML-style sequence. Read top to bottom; solid arrows are calls and dashed arrows are returns. Refresh repeats GET, not POST. A rejected form returns error HTML without the success redirect.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#245e55" stroke-width="1.5"/></marker></defs>
+<rect width="1080" height="720" fill="#faf7f0"/>
+<style>text{font-family:Arial,sans-serif;fill:#23374d}.heading{font-size:25px;font-weight:bold}.label{font-size:18px}.small{font-size:16px}.life{stroke:#7b898a;stroke-dasharray:6 5}.message{stroke:#245e55;stroke-width:2;marker-end:url(#arrow)}.return{stroke-dasharray:7 4}</style>
+<text x="28" y="40" class="heading">Server + Jinja2: submit a form, then retrieve an HTML result</text>
+<rect x="25" y="70" width="220" height="65" rx="6" fill="#e5eeea" stroke="#245e55"/>
+<text x="40" y="100" class="label">Browser</text>
+<text x="40" y="125" class="label">no custom JavaScript</text>
+<line x1="135" y1="135" x2="135" y2="645" class="life"/>
+<rect x="295" y="70" width="220" height="65" rx="6" fill="#e5eeea" stroke="#245e55"/>
+<text x="310" y="100" class="label">Frontend :8082</text>
+<text x="310" y="125" class="label">Jinja2 server</text>
+<line x1="405" y1="135" x2="405" y2="645" class="life"/>
+<rect x="565" y="70" width="220" height="65" rx="6" fill="#e5eeea" stroke="#245e55"/>
+<text x="580" y="100" class="label">API :8000</text>
+<text x="580" y="125" class="label">service + storage</text>
+<line x1="675" y1="135" x2="675" y2="645" class="life"/>
+<line x1="135" y1="180" x2="405" y2="180" class="message"/>
+<text x="143" y="168" class="small">POST /orders (form)</text>
+<line x1="405" y1="227" x2="675" y2="227" class="message"/>
+<text x="413" y="215" class="small">POST /orders (JSON)</text>
+<line x1="675" y1="274" x2="405" y2="274" class="message return"/>
+<text x="413" y="262" class="small">201 + order JSON</text>
+<line x1="405" y1="321" x2="135" y2="321" class="message return"/>
+<text x="143" y="309" class="small">303 Location: /orders/{id}</text>
+<line x1="135" y1="368" x2="405" y2="368" class="message"/>
+<text x="143" y="356" class="small">GET /orders/{id}</text>
+<line x1="405" y1="415" x2="675" y2="415" class="message"/>
+<text x="413" y="403" class="small">GET /orders/{id}</text>
+<line x1="675" y1="462" x2="405" y2="462" class="message return"/>
+<text x="413" y="450" class="small">200 + saved order JSON</text>
+<line x1="405" y1="509" x2="675" y2="509" class="message"/>
+<text x="413" y="497" class="small">GET /menu-items</text>
+<line x1="675" y1="556" x2="405" y2="556" class="message return"/>
+<text x="413" y="544" class="small">200 + menu JSON</text>
+<line x1="405" y1="603" x2="135" y2="603" class="message return"/>
+<text x="143" y="591" class="small">Render template; 200 HTML</text>
+<text x="28" y="680" class="small">Refresh repeats GET, not POST. A rejected form returns error HTML without the success redirect.</text>
+</svg>

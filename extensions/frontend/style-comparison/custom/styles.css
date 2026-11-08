@@ -1,0 +1,22 @@
+/* No Bootstrap: these selectors implement this page's layout and controls. */
+* { box-sizing: border-box; }
+body { margin: 0; font-size: 16px; line-height: 1.5; }
+.page { max-width: 1140px; margin: auto; padding: 24px 12px; }
+.brand-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; margin-bottom: 24px; }
+.brand-header span { display: block; }
+.brand-hero { display: grid; grid-template-columns: 2fr 1fr; align-items: center; gap: 24px; }
+.brand-hero img { justify-self: center; }
+.variant { margin: 24px 0; padding: 12px 16px; border-radius: 8px; }
+/* Same two-column intention as row + col-12 col-md-6 in the Bootstrap page. */
+.workspace { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.panel { background: white; border: 1px solid #e2dfd5; border-radius: 16px; padding: 24px; }
+h2 { font-size: 24px; line-height: 1.2; margin: 0 0 16px; }
+.field { margin-bottom: 16px; }
+label { display: block; margin-bottom: 8px; font-weight: 600; }
+input, select { width: 100%; border: 1px solid #879b98; border-radius: 8px; padding: 6px 12px; font: inherit; background: white; color: inherit; }
+button { width: 100%; border: 1px solid #245e55; border-radius: 8px; padding: 6px 12px; background: #245e55; color: white; font: inherit; cursor: pointer; }
+button:disabled { opacity: .55; cursor: default; }
+input:focus, select:focus, button:focus-visible { outline: 3px solid #bd7956; outline-offset: 2px; }
+#result { margin-top: 16px; padding: 16px; border-radius: 8px; background: #e5eeea; }
+.page-footer { margin-top: 24px; }
+@media (max-width: 767px) { .workspace, .brand-hero { grid-template-columns: 1fr; } }

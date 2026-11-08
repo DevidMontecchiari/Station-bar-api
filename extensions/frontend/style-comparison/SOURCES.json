@@ -1,0 +1,18 @@
+{
+  "bootstrap": {
+    "version": "5.3.8",
+    "source": "https://github.com/twbs/bootstrap/tree/v5.3.8",
+    "licence": "vendor/bootstrap/LICENSE",
+    "files": {
+      "bootstrap.min.css": "d85327d99c7a3ee1f9b5d0500d1370acea3ad2db39c163c2f51f232baedbdede",
+      "bootstrap.min.css.map": "48144faf6aa0fb3cd2ce748d9730238f888f4ab715f05dabd1c9af2c5671988a",
+      "LICENSE": "4620c84ad5ce8602ff65640ed6b7c8b78ebb9e036584f0ebc1ccc88206a4bb51"
+    }
+  },
+  "illustration": {
+    "source": "Existing Station Bar teaching artwork, extensions/frontend/shared/assets/station-bar-frontend-v1.png",
+    "sha256": "6ab7c8206b0f8f2fc74406b2595c9fdc1b779c18a610ab46901ee3af778ea5b3"
+  },
+  "menu": "Fictional static/menu.json fixture; packaged as a script for offline use",
+  "screenshots": "Actual local browser renders of these files; not generated mockups"
+}

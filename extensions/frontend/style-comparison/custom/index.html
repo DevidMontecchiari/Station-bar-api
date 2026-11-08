@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Station Bar | Custom CSS</title>
+  <!-- Our own CSS implements the layout and form controls. -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../shared/brand.css">
+  <script src="../shared/menu-data.js" defer></script>
+  <script src="../shared/app.js" defer></script>
+</head>
+<body>
+<main class="page">
+  <header class="brand-header">
+    <strong>STATION BAR</strong>
+    <div><span>Custom CSS</span><br><a href="../index.html">Compare versions</a></div>
+  </header>
+  <section class="brand-hero">
+    <div><h1>Two coffees for table three.</h1><p>Alex takes the order. The bar needs a clear request.</p></div>
+    <div><img src="../assets/station-bar-frontend-v1.png" alt=""></div>
+  </section>
+  <p class="variant">Prototype: results are simulated in this tab. Reload clears them.</p>
+  <!-- Custom CSS Grid columns stack below our 768px breakpoint. -->
+  <div class="workspace">
+    <div>
+      <section class="panel order-panel">
+        <h2>Alex | New order</h2>
+        <form id="order-form">
+          <div class="field">
+            <label for="table">Table</label>
+            <input id="table" name="table" type="number" min="1" step="1" required value="3">
+          </div>
+          <div class="field">
+            <label for="item">Menu item</label>
+            <select id="item" name="item" required></select>
+          </div>
+          <div class="field">
+            <label for="quantity">Quantity</label>
+            <input id="quantity" name="quantity" type="number" min="1" step="1" required value="2">
+          </div>
+          <button id="submit" type="submit">Simulate order</button>
+        </form>
+        <div id="result" role="status" aria-live="polite">No order submitted yet.</div>
+      </section>
+    </div>
+    <div>
+      <section class="panel menu-panel">
+        <h2>Today's menu</h2>
+        <div id="menu"></div>
+        <p class="trace">Input | JavaScript | DOM only</p>
+      </section>
+    </div>
+  </div>
+  <footer class="page-footer">Fictional sample data. This comparison changes styling, not behaviour or persistence.</footer>
+</main>
+</body>
+</html>

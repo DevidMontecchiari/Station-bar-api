@@ -11,3 +11,6 @@ __pycache__/
 **/data.tmp
 .DS_Store
 Thumbs.db
+
+# Optional frontend environment
+.venv-frontend/

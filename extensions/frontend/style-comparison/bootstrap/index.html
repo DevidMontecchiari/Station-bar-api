@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Station Bar | Bootstrap CSS</title>
+  <!-- Vendored Bootstrap 5.3.8 CSS: no CDN and no Bootstrap JavaScript needed. -->
+  <link rel="stylesheet" href="../vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../shared/brand.css">
+  <script src="../shared/menu-data.js" defer></script>
+  <script src="../shared/app.js" defer></script>
+</head>
+<body>
+<main class="container py-4">
+  <header class="brand-header d-flex justify-content-between align-items-center pb-3 mb-4">
+    <strong>STATION BAR</strong>
+    <div><span>Bootstrap CSS</span><br><a href="../index.html">Compare versions</a></div>
+  </header>
+  <section class="brand-hero row align-items-center g-4">
+    <div class="col-12 col-md-8"><h1>Two coffees for table three.</h1><p>Alex takes the order. The bar needs a clear request.</p></div>
+    <div class="col-12 col-md-4 text-center"><img src="../assets/station-bar-frontend-v1.png" alt=""></div>
+  </section>
+  <p class="variant rounded p-3 my-4">Prototype: results are simulated in this tab. Reload clears them.</p>
+  <!-- Bootstrap row/columns stack below the md breakpoint (768px). -->
+  <div class="workspace row g-4">
+    <div class="col-12 col-md-6">
+      <section class="panel card card-body p-4 order-panel">
+        <h2 class="h4 mb-3">Alex | New order</h2>
+        <form id="order-form">
+          <div class="mb-3">
+            <label for="table" class="form-label fw-semibold">Table</label>
+            <input id="table" name="table" type="number" min="1" step="1" required value="3" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="item" class="form-label fw-semibold">Menu item</label>
+            <select id="item" name="item" required class="form-select"></select>
+          </div>
+          <div class="mb-3">
+            <label for="quantity" class="form-label fw-semibold">Quantity</label>
+            <input id="quantity" name="quantity" type="number" min="1" step="1" required value="2" class="form-control">
+          </div>
+          <button id="submit" type="submit" class="btn btn-primary w-100">Simulate order</button>
+        </form>
+        <div id="result" role="status" aria-live="polite" class="alert alert-success mt-3 mb-0">No order submitted yet.</div>
+      </section>
+    </div>
+    <div class="col-12 col-md-6">
+      <section class="panel card card-body p-4 menu-panel">
+        <h2 class="h4 mb-3">Today's menu</h2>
+        <div id="menu"></div>
+        <p class="trace">Input | JavaScript | DOM only</p>
+      </section>
+    </div>
+  </div>
+  <footer class="page-footer mt-4">Fictional sample data. This comparison changes styling, not behaviour or persistence.</footer>
+</main>
+</body>
+</html>

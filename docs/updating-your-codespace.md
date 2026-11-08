@@ -16,7 +16,7 @@ git status
 git pull --ff-only
 ```
 
-5. **Return to [the current class in the README](../README.md#current-class-persistence-and-databases-exercise-4).** Check which folder and port to use. Read any setup instructions for a new example before starting it. Earlier exercises remain available.
+5. **Return to [the current class in the README](../README.md#current-class-from-prototype-to-frontend-exercise-5).** Check which folder and port to use. Read any setup instructions for a new example before starting it. Earlier exercises remain available.
 
 **Continuing with the ORM example?** Pulling its files or forwarding port8002 does not install the packages. Follow the [separate ORM environment setup](../extensions/orm/README.md#start-the-orm-example-in-part-d), then launch with `extensions/orm/.venv/bin/python extensions/orm/run.py --host 0.0.0.0` from the repository root. A normal Codespace rebuild still prepares the JSON dependencies; the optional ORM setup remains separate.
 

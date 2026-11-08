@@ -1,0 +1,24 @@
+// Fictional fixture; packaged for offline file opening.
+window.STATION_BAR_MENU = [
+  {
+    "id": 1,
+    "name": "Espresso macchiato",
+    "price": 4.5,
+    "currency": "CHF",
+    "available": true
+  },
+  {
+    "id": 2,
+    "name": "Cappuccino",
+    "price": 5.5,
+    "currency": "CHF",
+    "available": true
+  },
+  {
+    "id": 3,
+    "name": "Tea",
+    "price": 4.0,
+    "currency": "CHF",
+    "available": false
+  }
+];

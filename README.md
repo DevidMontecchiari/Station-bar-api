@@ -6,31 +6,75 @@ The backend uses [FastAPI](https://fastapi.tiangolo.com/tutorial/first-steps/). 
 
 This repository is a running teaching reference used across several classes. The numbered exercises follow the same bar example from its API contract to implementation, validation and persistence. No SQL or ORM knowledge is required.
 
-## Choose the version: JSON files or SQLite
+## Current class: From prototype to frontend (Exercise 5)
+
+**New in this teaching update:** three small interfaces for the same order workflow, shared visuals, exact launch commands and screenshots. The existing backend and earlier exercises remain available.
+
+| Start here | What you will find |
+|---|---|
+| [Exercise 5](exercises/05-frontend.md) | Observe the prototype, trace a saved order and compare rendering approaches; optional extensions follow. |
+| [Frontend setup and walkthrough](extensions/frontend/README.md) | Static prototype **8080**, browser/fetch client **8081**, server/Jinja2 **8082**. Connected examples use the JSON API on **8000**. |
+| [Screenshots and inspection](extensions/frontend/README.md#3-observe-inspect-then-stop) | Actual local success/rejection examples, Network inspection and reload/readback checks. |
+| [Recap: choose and inspect storage](docs/storage-choice.md#implementations-for-your-project) | Compare JSON files, SQLite/ORM and a database server; optional SQLite Viewer setup for VS Code and Codespaces. |
+| Project coaching (Moodle) | Update your existing project README; see Moodle for preparation, deadlines and your Teams slot. |
+
+```text
+solution/                       Existing JSON API and business rules
+starter/                        Earlier endpoint exercise
+extensions/orm/                 Optional database comparison
+extensions/frontend/
+  static/                       Browser-only prototype, simulated result
+  api-client/                   fetch + DOM; same-origin API proxy
+  server-rendered/templates/    Jinja2 HTML rendering
+  shared/                       Shared style, images and screenshots
+```
+
+**Reopening a Codespace?** [Check for updates safely](docs/updating-your-codespace.md). Use the frontend guide's separate virtual environment and its Python; forwarding a port does not install packages. The closing classroom demo compares prepared versions. Setup and small extensions are optional independent follow-up; there is no timed coding task in class.
+
+### How the interfaces connect
+
+[![Component-style view: static stays in the browser; fetch uses a proxy; Jinja2 renders on the server; connected versions share one API and JSON store.](extensions/frontend/shared/diagrams/frontend-components.svg)](extensions/frontend/shared/diagrams/frontend-components.svg)
+
+Read this like a simplified UML component view: boxes separate responsibilities, arrows show requests. The same backend owns storage in both connected examples.
+
+<details>
+<summary>Preview the running API-connected interface</summary>
+
+<a href="extensions/frontend/shared/screenshots/02-api-client.png"><img src="extensions/frontend/shared/screenshots/02-api-client.png" alt="API-connected order form showing the saved order ID" width="640"></a>
+
+</details>
+
+<a id="choose-the-version-json-files-or-sqlite"></a>
+
+## Backend versions: JSON files or SQLite
 
 | Version / folder | Where data is saved | Use it for | API port |
 | --- | --- | --- | --- |
-| **[Complete JSON solution](solution/README.md)** ? `solution/` | `solution/data.json` | The working menu/order backend; Exercise 4 opening demo and explanation (Parts A?B). | **8000** |
-| **[JSON exercise starter](starter/README.md)** ? `starter/` | `starter/data.json` | The earlier exercise: complete the order endpoint in Exercise 2. | **8001** |
-| **[SQLite / ORM comparison](extensions/orm/README.md)** ? `extensions/orm/` | `extensions/orm/data/bar.sqlite` | The smaller database example and query experiment (Parts D?E). | **8002** |
+| **[Complete JSON solution](solution/README.md)** - `solution/` | `solution/data.json` | The working menu/order backend; Exercise 4 opening demo and explanation (Parts A-B). | **8000** |
+| **[JSON exercise starter](starter/README.md)** - `starter/` | `starter/data.json` | The earlier exercise: complete the order endpoint in Exercise 2. | **8001** |
+| **[SQLite / ORM comparison](extensions/orm/README.md)** - `extensions/orm/` | `extensions/orm/data/bar.sqlite` | The smaller database example and query experiment (Parts D-E). | **8002** |
 
 The two JSON versions load and save a file directly. The ORM example uses SQLModel/SQLAlchemy to work with rows in SQLite. **All three APIs send and receive JSON over HTTP**; the distinction above is how they store data.
 
 Each version has separate saved data. The SQLite example is an optional comparison, with its own setup and a smaller set of endpoints. The complete JSON solution remains available for your project.
 
-## Current class: Persistence and databases (Exercise 4)
+<a id="current-class-persistence-and-databases-exercise-4"></a>
 
-Last class, we followed an order through the API and its business rules. This class asks **where that order is kept, what survives stopping the application, and when a database helps**.
+## Previous class: Persistence and databases (Exercise 4)
 
-We start with a **lecturer demonstration** of the existing JSON solution. Then we explain storage choices and related records, read the ORM code together, and finally run the comparison and change one query. No SQL knowledge or local installation is required. Using an ORM in your project remains optional.
+Exercise 4 remains available for revision: **where an order is kept, what survives stopping the application, and when a database helps**.
 
-**Begin with [Exercise 4, Part A: watch and predict](exercises/04-persistence.md#part-a---observe-json-persistence).** Follow the [A-E classroom stages](#where-to-work-in-this-lesson) with the lecturer. Open the [storage decision guide](docs/storage-choice.md) when we discuss the options in Part B.
+Its original sequence moves from observing the JSON solution to storage choices, related records and an optional ORM query experiment. Use the stages below when revisiting that lesson.
+
+**For Exercise 4, begin with [Part A: watch and predict](exercises/04-persistence.md#part-a---observe-json-persistence).** Follow the [A-E classroom stages](#where-to-work-in-this-lesson) with the lecturer. Open the [storage decision guide](docs/storage-choice.md) when we discuss the options in Part B.
 
 **Reopening a Codespace? Check for teaching updates first.** Follow the [check, fetch and update guide](docs/updating-your-codespace.md) to keep your work and get the new material. Reopening alone does not pull changes; the startup terminal reminder helps you remember. New to this repository? See [Open in GitHub Codespaces](#open-in-github-codespaces); setup for the ORM example comes later, in Part D.
 
-## Start here
+<a id="start-here"></a>
 
-**Follow the learning path:** [1. Contract](exercises/01-api-contract.md) → [Code map](docs/code-map.md) → [2. Endpoint](exercises/02-create-order.md) → [3. Validation and rules](exercises/03-validation-and-rules.md) → [4. Persistence and databases](exercises/04-persistence.md).
+## Complete learning path
+
+**Follow the learning path:** [1. Contract](exercises/01-api-contract.md) → [Code map](docs/code-map.md) → [2. Endpoint](exercises/02-create-order.md) → [3. Validation and rules](exercises/03-validation-and-rules.md) → [4. Persistence and databases](exercises/04-persistence.md) -> [5. Frontend integration](exercises/05-frontend.md).
 
 Use the **Previous / Next** links at the top and bottom of each guide to move between steps. **Learning path** brings you back here.
 
@@ -40,8 +84,11 @@ Use the **Previous / Next** links at the top and bottom of each guide to move be
 | [2 — Implement an order endpoint](exercises/02-create-order.md) | Complete `POST /orders` in the starter and check its behaviour. |
 | [3 — Validation and business rules](exercises/03-validation-and-rules.md) | Try successful and rejected requests; explain which layer decides. |
 | [4 — Persistence and databases](exercises/04-persistence.md) | Check restart persistence, map the same records to related tables, and explore an optional ORM setup. |
+| [5 - Frontend integration](exercises/05-frontend.md) | Compare a browser prototype, fetch client and Jinja2 rendering; optionally extend one feature. |
 
-### Where to work in this lesson
+<a id="where-to-work-in-this-lesson"></a>
+
+### Exercise 4 stages (previous lesson)
 
 [Exercise 4 classroom quick start](exercises/04-persistence.md#classroom-quick-start): where to open, which function to read or edit, commands and checks.
 
@@ -57,7 +104,7 @@ Use the **Previous / Next** links at the top and bottom of each guide to move be
 
 Use the [version comparison above](#choose-the-version-json-files-or-sqlite) to match the folder and port to the current part. Start the ORM setup only when we reach Part D.
 
-**Revisit the previous class:** `starter/` on port **8001** remains the focused order-creation exercise. [Exercise 2](exercises/02-create-order.md), [validation and rules](exercises/03-validation-and-rules.md), the [Python refresher](starter/README.md#python-refresher) and the [code map](docs/code-map.md) remain available. Edit `starter/` when returning to Exercise 2; today's query experiment is in `extensions/orm/main.py`.
+**Revisit the previous class:** `starter/` on port **8001** remains the focused order-creation exercise. [Exercise 2](exercises/02-create-order.md), [validation and rules](exercises/03-validation-and-rules.md), the [Python refresher](starter/README.md#python-refresher) and the [code map](docs/code-map.md) remain available. Edit `starter/` when returning to Exercise 2; the Exercise 4 query experiment is in `extensions/orm/main.py`.
 
 For the next project steps, use the [FastAPI reading guide](exercises/04-persistence.md#fastapi-reading-for-the-next-steps): route organisation, tests, frontend integration, security and deployment. Read selectively as those topics enter the course.
 
@@ -75,7 +122,7 @@ We will use this repository throughout the bar exercises, extending the same app
 
 At the end of the sequence, a **clean reference download of the finished application** is planned. It will contain the complete application, setup instructions and tests, without the unfinished starter or exercise guides. It will come from the same maintained implementation in this repository.
 
-That final download is not available yet. The current `solution/` is the completed backend for this stage; the integrated frontend and later course additions are still to come.
+That final download is not available yet. The current `solution/` is the completed backend for this stage; the three frontend examples are now available under `extensions/frontend/`; later course additions are still to come.
 
 ## Open in GitHub Codespaces
 
@@ -145,7 +192,7 @@ Save your changes, then stop the codespace when you finish. Closing its browser 
 In the design and deployment classes, we will revisit how to run and connect to the same application:
 
 - **Run it locally:** clone or download the repository and follow [local Python setup](docs/python-setup.md). This is an alternative for later, not preparation required for this exercise.
-- **Connect Postman or a frontend:** use the local API address or a forwarded Codespaces URL. We will demonstrate changing port visibility to **Public** for external access; see [later connection options](docs/codespaces.md#later-postman-and-frontend-connections). A public port is accessible to anyone with its URL. Keep your ports **Private** for the current exercise.
+- **Connect the supplied frontend:** use its private forwarded port; its server calls the API internally. No public API port is needed. External clients are a separate setup: see [later connection options](docs/codespaces.md#later-postman-and-frontend-connections).
 - **Explore containers:** [container setup](docs/containers.md) is optional material for later. Docker installation is not part of this class.
 
 ## What is supplied
@@ -153,12 +200,13 @@ In the design and deployment classes, we will revisit how to run and connect to 
 - [solution/](solution/README.md): complete menu/order CRUD, business rules, JSON storage and reference tests.
 - [starter/](starter/README.md): focused create/read exercise; complete the marked order-creation handler.
 - [extensions/orm/](extensions/orm/README.md): five-route SQLite/ORM comparison, including a query experiment and database tests.
+- [extensions/frontend/](extensions/frontend/README.md): three interface examples, shared visuals and inspection instructions.
 - [Code map](docs/code-map.md): responsibilities and the Spring comparison.
 - [Demonstration walkthrough](docs/demo-walkthrough.md): a longer sequence of requests.
 - [Postman collection](bar-api.postman_collection.json): supplied for later calls to the local API or a forwarded Codespaces URL. For this exercise, use the signed-in browser and `/docs`; see [later connection options](docs/codespaces.md#later-postman-and-frontend-connections).
 - [Teaching contract](solution/contracts/bar-api.published-v0.2.0.json) and [generated contract](solution/contracts/bar-api.generated.json). The live contract is at `/openapi.json`.
 
-The repository covers HTTP, application logic, JSON persistence and a separate relational/ORM comparison. Frontend integration and authentication remain later stages. The Spring Boot/Java and PostgREST comparisons in the slides are optional reading; runnable versions are not supplied here.
+The repository covers HTTP, application logic, JSON persistence and a separate relational/ORM comparison. Frontend integration is supplied in the three examples; authentication remains a later stage. The Spring Boot/Java and PostgREST comparisons in the slides are optional reading; runnable versions are not supplied here.
 
 The dependency files separate the three main application packages from test tools and the recorded environment snapshot. See [why there are several requirements files](starter/README.md#why-are-there-several-requirements-files). Codespaces prepares the JSON example packages. The ORM guide installs its dependencies in a separate environment inside the Codespace; the earlier examples keep theirs.
 
