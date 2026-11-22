@@ -20,6 +20,7 @@ def main():
     parser.add_argument("--host", default="127.0.0.1", choices=["127.0.0.1", "0.0.0.0"])
     parser.add_argument("--port", default=8003, type=int)
     parser.add_argument("--secure-cookies", action="store_true", help="Require HTTPS for browser cookies")
+    parser.add_argument("--jwt", action="store_true", help="Enable the optional /jwt API exercise")
     args = parser.parse_args()
     registry = TokenRegistry()
     data_file = Path(os.environ.get("BAR_SECURITY_DATA", ROOT / "extensions/security/data/menu.json"))
@@ -54,7 +55,12 @@ def main():
     print(f"Demo accounts: {credential_file} (passwords retained; API tokens rotate on restart)", flush=True)
     print(f"Security data: {data_file}", flush=True)
     secure = args.secure_cookies or bool(os.environ.get("CODESPACE_NAME")) or os.environ.get("CODESPACES") == "true"
-    uvicorn.run(create_app(data_file, registry, accounts, secure), host=args.host, port=args.port)
+    jwt_service = None
+    if args.jwt:
+        from extensions.security.jwt_api import JWTService
+        jwt_service = JWTService()
+        print("Optional JWT routes enabled. A fresh process-local key invalidates previous JWTs.", flush=True)
+    uvicorn.run(create_app(data_file, registry, accounts, secure, jwt_service), host=args.host, port=args.port)
 
 
 if __name__ == "__main__":

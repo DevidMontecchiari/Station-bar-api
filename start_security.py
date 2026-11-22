@@ -16,7 +16,7 @@ from start_class import ClassSession, Service, check_ports, environment_python, 
 ROOT = Path(__file__).resolve().parent
 
 
-def prepare_environment():
+def prepare_environment(with_jwt=False):
     folder = ROOT / ".venv-security"
     python = environment_python(folder)
     if not folder.exists():
@@ -24,7 +24,7 @@ def prepare_environment():
         venv.EnvBuilder(with_pip=True).create(folder)
     if not python.is_file():
         raise RuntimeError(".venv-security has no Python for this OS. Rename it as a backup and retry.")
-    requirements = ROOT / "extensions/security/requirements.txt"
+    requirements = ROOT / "extensions/security" / ("requirements-jwt.txt" if with_jwt else "requirements.txt")
     pins = {}
     for file in requirement_files(ROOT, requirements):
         for line in file.read_text(encoding="utf-8").splitlines():
@@ -49,6 +49,7 @@ def main(argv=None):
     mode.add_argument("--setup-only", action="store_true")
     mode.add_argument("--check", action="store_true", help="Checks use temporary data; no server stays running")
     parser.add_argument("--port", type=int, default=8003)
+    parser.add_argument("--jwt", action="store_true", help="Add the optional JWT exercise on the same port")
     parser.add_argument("--host", choices=["127.0.0.1", "0.0.0.0"],
                         default="0.0.0.0" if os.environ.get("CODESPACE_NAME") or os.environ.get("CODESPACES") == "true" else "127.0.0.1")
     args = parser.parse_args(argv)
@@ -61,24 +62,34 @@ def main(argv=None):
     signal.signal(signal.SIGTERM, stop)
     try:
         python = environment_python(ROOT / ".venv-security")
-        planned = [Service("Security | user + admin login", args.port,
-                   [str(python), str(ROOT / "extensions/security/run.py"), "--host", args.host, "--port", str(args.port)],
-                   "/login", "/openapi.json")]
+        command = [str(python), str(ROOT / "extensions/security/run.py"), "--host", args.host, "--port", str(args.port)]
+        if args.jwt:
+            command.append("--jwt")
+        planned = [Service("Security | login + JWT practice" if args.jwt else "Security | user + admin login",
+                           args.port, command, "/docs" if args.jwt else "/login", "/openapi.json")]
         if not args.setup_only and not args.check:
             check_ports(planned)
-        prepare_environment()
+        prepare_environment(args.jwt)
         if args.setup_only:
-            print("Ready. Run python start_security.py for the lesson.")
+            print("Ready. Run python start_security.py" + (" --jwt" if args.jwt else "") + " for the lesson.")
             return 0
         if args.check:
-            return subprocess.run([str(python), "-m", "unittest", "discover", "-s", "extensions/security/tests", "-v"], cwd=ROOT).returncode
+            result = subprocess.run([str(python), "-m", "unittest", "discover", "-s", "extensions/security/tests", "-v"], cwd=ROOT).returncode
+            if result or not args.jwt:
+                return result
+            return subprocess.run([str(python), "-m", "unittest", "discover", "-s", "extensions/security/tests_jwt", "-v"], cwd=ROOT).returncode
         print("STATION BAR | Security lesson. Existing JSON/ORM/frontend examples stay separate.", flush=True)
         session = ClassSession(ROOT, planned)
         session.start()
         show_links(planned)
+        if args.jwt:
+            print("\nJWT practice: POST /jwt/token with your local username/password.\n"
+                  "Copy access_token into Authorize > JWT access token (optional).\n"
+                  "Then use /jwt/whoami and POST /jwt/menu-items. JWTs last 5 minutes; restart invalidates them.\n"
+                  "Guide: docs/security/jwt-practice.md. Browser login and earlier opaque tokens stay separate.", flush=True)
         print("\nOpen .classroom/security-credentials.json locally for user/admin passwords.\n"
               "Browser: sign in at /login. Use separate browser profiles for simultaneous views.\n"
-              "Optional API checks: /docs > Authorize > paste ONLY the account's token value.\n"
+              "Opaque API comparison: use its separate Authorize field with the account's token value, not a JWT.\n"
               "Data: extensions/security/data/menu.json (separate; retained on restart).\n"
               "Browser sessions expire after one hour; restart signs everyone out but keeps accounts/data.\n"
               "Follow exercises/06-security.md. Keep this terminal open; Ctrl+C stops this run.", flush=True)

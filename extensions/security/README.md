@@ -19,6 +19,8 @@ The four stages match the **08A FastAPI Login and Permissions** slides. Start wi
 
 **Considering an external provider?** [Choose the Auth0 or Keycloak route](../../docs/security/add-login-to-your-project.md#login-options); optional guided configurations in A21–A22.
 
+**Want to implement JWT access?** [Run the optional JWT practice](../../docs/security/jwt-practice.md); same accounts and action, A23–A26.
+
 <!-- login-route:end -->
 
 The example now includes **a login page, a user menu and an admin area**. Both identities see the same saved menu; only the admin can add items. The admin page also shows the current role assignments. A direct request to an admin route is rejected for a user even when it bypasses the interface.
@@ -65,13 +67,29 @@ The [illustrated integration walkthrough](../../docs/security/add-login-to-your-
 
 Open **/docs** on the same port for the earlier bearer-token checks. Public `GET /menu-items` needs no login. For `POST /menu-items`, no token gives **401**, the `user` token gives **403**, and the `admin` token gives **201**. Paste only the account's **token value** into Swagger **Authorize**, and use **Logout** before switching credentials. `GET /whoami` shows its verified identity.
 
-Browser cookies and API bearer tokens are deliberately separate here. Signing in on the page does not authorise Swagger. Both paths enforce `menu:write` and reuse the same business service/data; no unprotected alternative write route is mounted. The opaque API tokens expire after four hours. Browser sessions expire after one hour, rotate on login and are revoked on logout. This example does not implement JWT or an OAuth/OIDC provider.
+Browser cookies and API bearer tokens are deliberately separate here. Signing in on the page does not authorise Swagger. Both paths enforce `menu:write` and reuse the same business service/data; no unprotected alternative write route is mounted. The opaque API tokens expire after four hours. Browser sessions expire after one hour, rotate on login and are revoked on logout. The default mode uses opaque tokens. Optional JWT routes are enabled below; this example is not an OAuth/OIDC provider.
 
 ```sh
 python start_security.py --check
 ```
 
 Checks use temporary data. They verify login, permissions, CSRF, logout, expiry, rejection without writes, safe rendering and the API comparison.
+
+## Optional JWT implementation
+
+Stop the current security launcher first, then run:
+
+```sh
+python start_security.py --jwt
+```
+
+On the same private port **8003 /docs**, use **POST /jwt/token** with your local user/admin password, then paste the returned **access_token** into **Authorize > JWT access token (optional)**. Use **GET /jwt/whoami** and **POST /jwt/menu-items**. The original opaque-token field is for the routes without `/jwt`.
+
+[Follow the JWT practice guide](../../docs/security/jwt-practice.md), matching annex **A23-A26**, for the exact steps, code functions, permitted/denied outcomes and project adaptation. `jwt_api.py` implements issuance, verification and current-account permission checks. `requirements-jwt.txt` adds PyJWT only to the isolated security environment when requested.
+
+JWTs expire after five minutes. Their random in-memory signing key changes on restart, invalidating existing JWTs; passwords and menu data remain. Browser logout does not revoke a JWT. No refresh-token or individual-token revocation flow is implemented. This local JSON credential exchange is not OAuth delegated access.
+
+Run **`python start_security.py --jwt --check`** for the existing checks plus the JWT checks, using temporary data.
 
 ## Adapting it
 

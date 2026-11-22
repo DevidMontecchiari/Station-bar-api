@@ -15,7 +15,7 @@ from .auth import Principal, TokenRegistry, User, require_staff
 Staff = Annotated[Principal, Depends(require_staff)]
 
 
-def create_app(data_file: Path, tokens: TokenRegistry, accounts=None, secure_cookies=False) -> FastAPI:
+def create_app(data_file: Path, tokens: TokenRegistry, accounts=None, secure_cookies=False, jwt_service=None) -> FastAPI:
     app = FastAPI(title="Station Bar | Security: identity and permission", version="1.0",
                   description="Classroom subset on port 8003. Public menu; staff-only creation. "
                   "Browser login uses server sessions; this API uses separate opaque bearer tokens.")
@@ -53,4 +53,10 @@ def create_app(data_file: Path, tokens: TokenRegistry, accounts=None, secure_coo
     if accounts is not None:
         from .pages import install_pages
         install_pages(app, accounts, secure_cookies)
+    if jwt_service is not None:
+        if accounts is None:
+            raise ValueError("The optional JWT route requires trusted accounts.")
+        from .jwt_api import install_jwt_api
+        install_jwt_api(app, jwt_service)
+        app.description += " Optional /jwt routes are enabled: local JWT credential exchange, not an OAuth provider."
     return app

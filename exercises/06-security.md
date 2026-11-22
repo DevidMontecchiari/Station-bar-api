@@ -19,6 +19,8 @@ The four stages match the **08A FastAPI Login and Permissions** slides. Start wi
 
 **Considering an external provider?** [Choose the Auth0 or Keycloak route](../docs/security/add-login-to-your-project.md#login-options); optional guided configurations in A21–A22.
 
+**Want to implement JWT access?** [Run the optional JWT practice](../docs/security/jwt-practice.md); same accounts and action, A23–A26.
+
 <!-- login-route:end -->
 
 **Goal:** follow one action from a signed-in identity through a server-side permission check to saved data.
@@ -40,6 +42,12 @@ Open `/docs` on port8003. Repeat the same `POST /menu-items` with no bearer toke
 ```
 
 Rejected requests leave the saved JSON unchanged. `python start_security.py --check` reproduces checks using temporary data.
+
+## Optional: implement the JWT route
+
+Run **`python start_security.py --jwt`** after stopping the current instance. Follow [JWT practice](../docs/security/jwt-practice.md) and annex **A23-A26**: obtain a token from **POST /jwt/token**, use the **JWT access token (optional)** authorisation field, then repeat **POST /jwt/menu-items** as user and admin. The same permission check produces **403 / 201**; missing, invalid or expired JWTs produce **401**. Inspect the same saved data.
+
+Trace `JWTService.issue()` -> `JWTService.verify()` -> `jwt_user()` -> `jwt_staff()` in `jwt_api.py`. Explain what the signature proves and why a valid token alone does not permit a menu change. The guide includes adaptation steps and tests. JWT is one optional implementation route; it is separate from delegated OAuth/provider sign-in.
 
 ## Continue in your own project
 

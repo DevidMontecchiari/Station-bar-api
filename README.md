@@ -25,12 +25,16 @@ The four stages match the **08A FastAPI Login and Permissions** slides. Start wi
 
 **Considering an external provider?** [Choose the Auth0 or Keycloak route](docs/security/add-login-to-your-project.md#login-options); optional guided configurations in A21–A22.
 
+**Want to implement JWT access?** [Run the optional JWT practice](docs/security/jwt-practice.md); same accounts and action, A23–A26.
+
 <!-- login-route:end -->
 
 Run **`python start_security.py`**, then open the printed **8003 /login** link.
 Use the fictional **user/admin passwords** in `.classroom/security-credentials.json` locally.
 
 **[Exercise 6](exercises/06-security.md)**: sign in as a user, try the admin area, then sign in as an admin and add an item. The admin page shows the assigned roles; the server enforces the permissions. Both views use the same separate saved menu.
+
+**Optional JWT route:** `python start_security.py --jwt` starts the same service with token issuance and protected `/jwt` routes. [Follow the JWT exercise](docs/security/jwt-practice.md) (08A A23-A26); use your local passwords to obtain a signed token. Stop the existing security launcher before switching modes.
 
 [Startup and code map](extensions/security/README.md) · [Illustrated guide: add login to your project](docs/security/add-login-to-your-project.md)
 

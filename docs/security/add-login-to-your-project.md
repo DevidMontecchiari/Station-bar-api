@@ -46,6 +46,8 @@ The four stages match the **08A FastAPI Login and Permissions** slides. Start wi
 
 **Considering an external provider?** [Choose the Auth0 or Keycloak route](#login-options); optional guided configurations in A21–A22.
 
+**Want to implement JWT access?** [Run the optional JWT practice](jwt-practice.md); same accounts and action, A23–A26.
+
 <!-- login-route:end -->
 
 <a id="try-the-roles"></a>

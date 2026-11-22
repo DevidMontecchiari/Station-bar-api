@@ -1,0 +1,3 @@
+# Optional JWT route; installed only when the launcher receives --jwt.
+-r requirements.txt
+PyJWT==2.15.1
