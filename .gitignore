@@ -17,3 +17,6 @@ Thumbs.db
 
 # Class launcher logs (environments above stay separate)
 .classroom/
+
+# Isolated security lesson environment
+.venv-security/

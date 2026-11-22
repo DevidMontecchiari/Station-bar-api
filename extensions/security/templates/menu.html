@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block title %}Menu · Station Bar{% endblock %}
+{% block content %}<p class="eyebrow">STATION BAR MENU</p><div class="heading-row"><div><h1>Take a look. Find your favourite.</h1><p>Fresh choices from the same shared menu.</p></div>{% if 'menu:write' in user.permissions %}<a class="primary" href="/admin">Manage menu</a>{% endif %}</div>
+<div class="menu-grid">{% for item in items %}<article class="menu-card"><div class="item-symbol" aria-hidden="true">☕</div><span class="status">{{ 'Available' if item.available else 'Unavailable' }}</span><h2>{{ item.name }}</h2><p class="price">{{ item.currency }} {{ '%.2f'|format(item.price) }}</p></article>{% endfor %}</div>
+<p class="hint">Signed in as {{ user.username }}. {% if 'menu:write' in user.permissions %}You can manage the menu.{% else %}You can browse the menu; menu management is available to administrators.{% endif %}</p>{% endblock %}

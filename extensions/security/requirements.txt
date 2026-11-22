@@ -1,0 +1,9 @@
+# Existing backend packages, installed into a separate security environment.
+-r ../../solution/requirements.txt
+# FastAPI TestClient for the local permission checks.
+httpx==0.28.1
+# Browser pages and maintained Argon2 password hashing.
+jinja2==3.1.6
+python-multipart==0.0.33
+pwdlib==0.4.2
+argon2-cffi==25.1.0

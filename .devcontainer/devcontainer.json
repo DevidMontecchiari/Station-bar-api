@@ -13,7 +13,8 @@
     8080,
     8081,
     8082,
-    8090
+    8090,
+    8003
   ],
   "portsAttributes": {
     "8000": {
@@ -42,6 +43,10 @@
     },
     "8090": {
       "label": "Styles - Custom CSS / Bootstrap",
+      "onAutoForward": "silent"
+    },
+    "8003": {
+      "label": "Security - user/admin login",
       "onAutoForward": "silent"
     }
   },

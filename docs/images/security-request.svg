@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="305" viewBox="0 0 1000 305" role="img" aria-labelledby="title desc">
+<title id="title">Verify identity, then permission, before saving</title><desc id="desc">POST menu-items passes through token verification, permission and the existing business service. Missing or invalid credentials return 401. A verified user without write permission receives 403. Admin can create the item with 201.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#267463"/></marker></defs>
+<rect width="1000" height="305" fill="white"/>
+<g font-family="Arial,sans-serif" fill="#23374d"><text x="25" y="33" font-size="23" font-weight="bold">Same request — different verified identity and permission</text>
+<g fill="#e7eff5" stroke="#276b9b"><rect x="25" y="70" width="200" height="95" rx="6"/><rect x="275" y="70" width="200" height="95" rx="6"/><rect x="525" y="70" width="200" height="95" rx="6"/><rect x="775" y="70" width="200" height="95" rx="6"/></g>
+<g font-size="20" font-weight="bold"><text x="42" y="102">POST /menu-items</text><text x="292" y="102">Verify token</text><text x="542" y="102">Check permission</text><text x="792" y="102">Business service</text></g>
+<g font-size="17"><text x="42" y="140">Authorization header</text><text x="292" y="140">Resolve current user</text><text x="542" y="140">Require menu:write</text><text x="792" y="140">Save separate JSON</text></g>
+<g stroke="#267463" stroke-width="3" marker-end="url(#arrow)"><path d="M226 115 H266"/><path d="M476 115 H516"/><path d="M726 115 H766"/></g>
+<g font-size="18"><text x="283" y="205" fill="#a73434">401 · no valid identity</text><text x="533" y="205" fill="#a73434">403 · user, no permission</text><text x="783" y="205" fill="#267463">201 · admin, item saved</text></g>
+<text x="25" y="265" font-size="18">Denied writes leave data unchanged. Reading the menu remains public.</text></g></svg>

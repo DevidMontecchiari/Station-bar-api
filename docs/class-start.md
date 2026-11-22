@@ -1,5 +1,7 @@
 # Start the frontend class examples
 
+For the security lesson use [the separate security launcher and guide](../extensions/security/README.md).
+
 [Repository overview](../README.md) · [Frontend walkthrough](../extensions/frontend/README.md)
 
 After [safely updating your Codespace](updating-your-codespace.md), open a terminal at the repository root and run:
@@ -8,7 +10,7 @@ After [safely updating your Codespace](updating-your-codespace.md), open a termi
 python start_class.py
 ```
 
-Or choose **Terminal → Run Task → Station Bar: start this class**. Use either method once. If you already started examples manually, stop them in their terminals with **Ctrl+C** first. Closing their browser tabs does not stop their servers.
+Or choose **Terminal → Run Task → Station Bar: frontend examples**. Use either method once. If you already started examples manually, stop them in their terminals with **Ctrl+C** first. Closing their browser tabs does not stop their servers.
 
 The first run prepares the frontend environment (`.venv-frontend`) and the separate ORM environment (`extensions/orm/.venv`). It may take a few minutes to install dependencies. Later runs reuse them. Nothing is installed into the system Python. The launcher does not pull Git changes or reset your saved orders.
 

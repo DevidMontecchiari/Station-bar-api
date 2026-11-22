@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Station Bar{% endblock %}</title><link rel="stylesheet" href="/static/style.css"></head>
+<body><header><a class="brand" href="/menu"><span class="brand-mark">SB</span> Station Bar</a>
+<nav aria-label="Main navigation">{% if user %}<a href="/menu">Menu</a>{% if 'menu:write' in user.permissions %}<a href="/admin">Admin area</a>{% endif %}
+<span class="identity">{{ user.username }} · {{ role }}</span><form action="/logout" method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="quiet">Sign out</button></form>{% endif %}</nav></header>
+<main>{% block content %}{% endblock %}</main><footer>Station Bar · Security teaching example · Fictional accounts and data</footer></body></html>

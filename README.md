@@ -6,7 +6,37 @@ The backend uses [FastAPI](https://fastapi.tiangolo.com/tutorial/first-steps/). 
 
 This repository is a running teaching reference used across several classes. The numbered exercises follow the same bar example from its API contract to implementation, validation and persistence. No SQL or ORM knowledge is required.
 
-## Current class: From prototype to frontend (Exercise 5)
+## Current class: Login and permissions (Exercise 6)
+
+<!-- login-route:start -->
+
+**Your route through the example**
+
+<table>
+<tr>
+<td align="center" width="25%"><a href="docs/security/add-login-to-your-project.md#try-the-roles"><img src="docs/security/images/route/endpoint-gate.png" width="80" alt="Endpoint"><br><strong>1. Try the roles</strong></a><br>Annex A2–A5</td>
+<td align="center" width="25%"><a href="docs/security/add-login-to-your-project.md#trace-the-checks"><img src="docs/security/images/route/session-register.png" width="80" alt="Session lookup"><br><strong>2. Trace the checks</strong></a><br>Annex A6–A13</td>
+<td align="center" width="25%"><a href="docs/security/add-login-to-your-project.md#protect-your-action"><img src="docs/security/images/route/guard-policy-coffee.png" width="80" alt="Permission check"><br><strong>3. Protect your action</strong></a><br>Annex A14–A16</td>
+<td align="center" width="25%"><a href="docs/security/add-login-to-your-project.md#verify-the-result"><img src="docs/security/images/route/protected-records.png" width="80" alt="Protected data"><br><strong>4. Verify the result</strong></a><br>Annex A17–A18</td>
+</tr>
+</table>
+
+The four stages match the **08A FastAPI Login and Permissions** slides. Start with the working example; use the later stages when adapting your project.
+
+**Considering an external provider?** [Choose the Auth0 or Keycloak route](docs/security/add-login-to-your-project.md#login-options); optional guided configurations in A21–A22.
+
+<!-- login-route:end -->
+
+Run **`python start_security.py`**, then open the printed **8003 /login** link.
+Use the fictional **user/admin passwords** in `.classroom/security-credentials.json` locally.
+
+**[Exercise 6](exercises/06-security.md)**: sign in as a user, try the admin area, then sign in as an admin and add an item. The admin page shows the assigned roles; the server enforces the permissions. Both views use the same separate saved menu.
+
+[Startup and code map](extensions/security/README.md) · [Illustrated guide: add login to your project](docs/security/add-login-to-your-project.md)
+
+The launcher prepares an isolated environment. In Codespaces keep **8003 Private**. Checks: **`python start_security.py --check`**. The optional `/docs` comparison uses separate bearer tokens. Earlier JSON, ORM and frontend examples remain available below; they are not automatically secured by this extension. Continue one project README; full coaching and submission details remain in Moodle.
+
+## Previous class: From prototype to frontend (Exercise 5)
 
 From the repository root, start the prepared examples with one command:
 
@@ -14,7 +44,7 @@ From the repository root, start the prepared examples with one command:
 python start_class.py
 ```
 
-The launcher prepares separate frontend/ORM environments, starts the examples and prints their browser links. Keep its terminal open; **Ctrl+C stops this run and keeps saved data**. Stop previously started examples first if their ports are occupied. See **[Class startup and SQLite inspection](docs/class-start.md)** for the port map, first-run setup and viewer steps. You can also use **Terminal > Run Task > Station Bar: start this class**.
+The launcher prepares separate frontend/ORM environments, starts the examples and prints their browser links. Keep its terminal open; **Ctrl+C stops this run and keeps saved data**. Stop previously started examples first if their ports are occupied. See **[Class startup and SQLite inspection](docs/class-start.md)** for the port map, first-run setup and viewer steps. You can also use **Terminal > Run Task > Station Bar: frontend examples**.
 
 **New in this teaching update:** three small interfaces for the same order workflow, shared visuals, exact launch commands and screenshots. The existing backend and earlier exercises remain available.
 
@@ -82,7 +112,7 @@ Its original sequence moves from observing the JSON solution to storage choices,
 
 ## Complete learning path
 
-**Follow the learning path:** [1. Contract](exercises/01-api-contract.md) → [Code map](docs/code-map.md) → [2. Endpoint](exercises/02-create-order.md) → [3. Validation and rules](exercises/03-validation-and-rules.md) → [4. Persistence and databases](exercises/04-persistence.md) -> [5. Frontend integration](exercises/05-frontend.md).
+**Follow the learning path:** [1. Contract](exercises/01-api-contract.md) → [Code map](docs/code-map.md) → [2. Endpoint](exercises/02-create-order.md) → [3. Validation and rules](exercises/03-validation-and-rules.md) → [4. Persistence and databases](exercises/04-persistence.md) -> [5. Frontend integration](exercises/05-frontend.md) → [6. Security](exercises/06-security.md).
 
 Use the **Previous / Next** links at the top and bottom of each guide to move between steps. **Learning path** brings you back here.
 

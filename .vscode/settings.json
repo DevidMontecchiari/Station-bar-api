@@ -27,6 +27,10 @@
     "8090": {
       "label": "Styles - Custom CSS / Bootstrap",
       "onAutoForward": "silent"
+    },
+    "8003": {
+      "label": "Security - user/admin login",
+      "onAutoForward": "silent"
     }
   }
 }

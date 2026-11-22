@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block title %}Admin area · Station Bar{% endblock %}
+{% block content %}<p class="eyebrow">ADMIN AREA</p><h1>Manage the shared menu.</h1><p>Add an item here, then see it from the user's menu.</p>
+{% if saved %}<p class="success" role="status">Menu item saved. <a href="/menu">View the updated menu</a>.</p>{% endif %}{% if error %}<p class="alert" role="alert">{{ error }}</p>{% endif %}
+<div class="admin-grid"><section class="panel"><h2>Add a menu item</h2><form method="post" action="/admin/menu-items"><input type="hidden" name="csrf" value="{{ csrf }}">
+<label for="name">Item name</label><input id="name" name="name" maxlength="120" required placeholder="Workshop tea">
+<label for="price">Price (CHF)</label><input id="price" name="price" type="number" min="0" step="0.01" required placeholder="4.00"><button class="primary">Add to menu</button></form></section>
+<section class="panel"><h2>Who can do what?</h2><p>Current account assignments</p><table><thead><tr><th>Account</th><th>Role</th><th>Menu access</th></tr></thead><tbody>{% for account in assignments %}<tr><td>{{ account.username }}</td><td><span class="role">{{ account.role }}</span></td><td>{{ 'Read + create' if 'menu:write' in account.permissions else 'Read' }}</td></tr>{% endfor %}</tbody></table><p class="hint">Assignments are managed on the server. Users cannot choose their role at sign-in.</p></section></div>{% endblock %}

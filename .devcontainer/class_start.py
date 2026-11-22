@@ -18,7 +18,8 @@ Reopening this Codespace does not update your exercise files.
 
 Open docs/updating-your-codespace.md for the steps, then README.md for
 this class's activity and the JSON / SQLite folder and port comparison.
-After updating: python start_class.py starts the prepared class examples.
+Security class: python start_security.py starts the user/admin login on 8003.
+Guide: extensions/security/README.md. Previous frontend class: python start_class.py.
 Guide: docs/class-start.md. Stop older demo terminals first if ports are busy.
 
 This reminder does not pull or push. The editor can fetch in the background.
