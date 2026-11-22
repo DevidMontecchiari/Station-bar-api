@@ -66,6 +66,8 @@ Sign in as **user**. You can browse the menu. Open `/admin` directly: the server
 
 **Checkpoint:** explain why removing a button alone would not protect `/admin/menu-items`.
 
+**Want to start before login?** [Create a fictional account](../../extensions/security/README.md#create-an-account) using `/signup`, then repeat the permission check. New accounts receive the user role and appear in the admin's assignment table.
+
 <a id="trace-the-checks"></a>
 
 ## 2. Define one policy using your own project
@@ -93,7 +95,7 @@ stored_hash = password_hash.hash(password)       # when creating an account
 valid = password_hash.verify(password, stored_hash)  # when signing in
 ```
 
-These are the library operations to understand; use the complete account implementation, including the unknown-user case. When adapting your project, replace the fictional `AccountStore` lookup with your existing user repository (JSON or database). Keep password hashes in server-controlled storage. There is no need to change your storage technology merely to add this example.
+These are the library operations to understand; use the complete account implementation, including the unknown-user case. `AccountStore.register()` adds a unique, lowercase username with a server-assigned user role and saves its hash. The seeded credentials sheet does not receive that user's password. When adapting your project, connect these operations to your existing user repository (JSON or database); a database implementation should enforce username uniqueness in storage as well. Keep password hashes and role assignment server-controlled. There is no need to change your storage technology merely to add this example.
 
 **Checkpoint:** a wrong username/password produces the same sign-in error. Neither plaintext passwords nor stored hashes appear in the pages or API responses.
 
@@ -108,7 +110,7 @@ Read [`sessions.py`](../../extensions/security/sessions.py), then `login()` and 
 
 Browser sessions last one hour. Sign-out revokes the session on the server; restarting the example invalidates all sessions. Saved accounts and menu data remain.
 
-Keep CSRF validation on login, logout and menu changes. The hidden form token is bound to the session and differs from the session cookie. `SameSite=Lax` is an additional control, not a replacement for the form-token check. Codespaces enables `Secure` cookies automatically; local loopback HTTP uses non-Secure cookies. For any other HTTPS deployment use the `--secure-cookies` option when running `extensions/security/run.py`.
+Keep CSRF validation on signup, login, logout and menu changes. The hidden form token is bound to the session and differs from the session cookie. `SameSite=Lax` is an additional control, not a replacement for the form-token check. Codespaces enables `Secure` cookies automatically; local loopback HTTP uses non-Secure cookies. For any other HTTPS deployment use the `--secure-cookies` option when running `extensions/security/run.py`.
 
 For example, **one** `POST /admin/menu-items` submission carries two different values:
 

@@ -49,6 +49,7 @@ def install_pages(app, accounts: AccountStore, secure_cookies=False):
     app.state.accounts = accounts
     app.state.sessions = SessionStore()
     app.state.login_attempts = LoginAttempts()
+    app.state.signup_attempts = LoginAttempts()
     app.mount("/static", StaticFiles(directory=HERE / "static"), name="security-static")
     router = APIRouter(include_in_schema=False)
 
@@ -79,15 +80,50 @@ def install_pages(app, accounts: AccountStore, secure_cookies=False):
     def home():
         return RedirectResponse("/menu", status_code=303)
 
-    @router.get("/login")
-    def login_page(request: Request):
+    def anonymous_form(request, template, **context):
         session = app.state.sessions.get(request.cookies.get(COOKIE))
         if session and session.username:
             return RedirectResponse("/menu", status_code=303)
         token, session = app.state.sessions.issue()
         app.state.sessions.revoke(request.cookies.get(COOKIE))
-        response = render(request, "login.html", csrf=session.csrf)
+        response = render(request, template, csrf=session.csrf, **context)
         set_session(response, token, 600)
+        return response
+
+    @router.get("/login")
+    def login_page(request: Request):
+        return anonymous_form(request, "login.html", registered=request.query_params.get("registered") == "1")
+
+    @router.get("/signup")
+    def signup_page(request: Request):
+        return anonymous_form(request, "signup.html")
+
+    @router.post("/signup")
+    def signup(request: Request, username: Annotated[str, Form()] = "",
+               password: Annotated[str, Form()] = "", confirm_password: Annotated[str, Form()] = "",
+               csrf: Annotated[str, Form()] = ""):
+        check_csrf(request, csrf)
+        if app.state.sessions.get(request.cookies.get(COOKIE)).username:
+            raise HTTPException(403, detail="Sign out before creating another account.")
+        # Small classroom bound per peer, not per attacker-chosen username.
+        # Public/multi-worker hosting needs shared abuse controls and proxy policy.
+        peer = request.client.host if request.client else "unknown"
+        if app.state.signup_attempts.blocked(peer):
+            return render(request, "signup.html", status=429, error="Too many attempts. Please wait one minute.")
+        app.state.signup_attempts.failure(peer)
+        try:
+            if password != confirm_password:
+                raise ValueError("The passwords do not match. Please enter them again.")
+            accounts.register(username, password)
+        except ValueError as error:
+            # Only the username returns to the form; never echo password fields.
+            return render(request, "signup.html", status=422, username=username[:32], error=str(error))
+        except OSError:
+            return render(request, "signup.html", status=503, username=username[:32],
+                          error="The account could not be saved. Please try again later.")
+        app.state.sessions.revoke(request.cookies.get(COOKIE))
+        response = RedirectResponse("/login?registered=1", status_code=303)
+        response.delete_cookie(COOKIE, path="/", secure=secure_cookies, httponly=True, samesite="lax")
         return response
 
     @router.post("/login")
@@ -141,7 +177,7 @@ def install_pages(app, accounts: AccountStore, secure_cookies=False):
     from fastapi.exception_handlers import http_exception_handler
     @app.exception_handler(StarletteHTTPException)
     async def page_error(request, error):
-        if error.status_code == 403 and request.url.path in ("/admin", "/admin/menu-items", "/login", "/logout"):
+        if error.status_code == 403 and request.url.path in ("/admin", "/admin/menu-items", "/login", "/logout", "/signup"):
             return render(request, "denied.html", status=403, error=error.detail)
         return await http_exception_handler(request, error)
 

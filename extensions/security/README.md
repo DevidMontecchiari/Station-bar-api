@@ -23,7 +23,7 @@ The four stages match the **08A FastAPI Login and Permissions** slides. Start wi
 
 <!-- login-route:end -->
 
-The example now includes **a login page, a user menu and an admin area**. Both identities see the same saved menu; only the admin can add items. The admin page also shows the current role assignments. A direct request to an admin route is rejected for a user even when it bypasses the interface.
+The example includes **signup and login pages, a user menu and an admin area**. Both identities see the same saved menu; only the admin can add items. The admin page also shows the current role assignments. A direct request to an admin route is rejected for a user even when it bypasses the interface.
 
 ![Admin area with a protected form and the role assignments](../../docs/security/images/04-admin.png)
 
@@ -41,13 +41,30 @@ Open **`.classroom/security-credentials.json` in the editor** for the fictional 
 
 In Codespaces keep port **8003 Private**. If needed, use **Ports → Add Port → 8003**; forwarding alone does not start the server. Keep the terminal open; **Ctrl+C stops this run**. `python start_security.py --setup-only` prepares dependencies ahead of class.
 
+## Create an account
+
+1. Start the example as above. On `/login`, choose **Create an account** to open **`/signup`**.
+2. Enter a fictional username, a new password and its confirmation. Usernames are saved in lowercase; use that spelling when signing in. Use a password you do not use elsewhere.
+3. Submit. The success message returns you to login: **creating an account and signing in are separate steps**. Sign in with your new credentials.
+4. Browse the menu, then open `/admin` directly: expect **403**. Every signup receives the **user** role; there is no admin choice in the form.
+5. Sign out and sign in with the supplied fictional `admin` account. Its assignment table now includes your new user. Trying the same username again cannot replace that account or its password.
+6. Stop with Ctrl+C and restart. Sign in again: the saved account remains, while the old browser session is gone.
+
+![Create an account using the same Station Bar page style](../../docs/security/images/08-signup.png)
+
+Trace **GET `/signup` → POST `/signup` → `AccountStore.register()` → sign in** in [`pages.py`](pages.py) and [`accounts.py`](accounts.py). The server checks the session-bound CSRF token, request limit, confirmation and input rules, assigns `user`, hashes the password, and atomically replaces the local account file. Failed validation does not create an account; passwords are not put back into the HTML form.
+
+Your chosen password is **not** added to the teaching access sheet. Only its Argon2 hash is saved in `.classroom/security-accounts.json`. Signup does not issue an opaque API token. With optional JWT mode enabled, you can use the new account's password at `/jwt/token`; it still has no admin permission.
+
+This is a **single-process classroom example**. Signup allows five attempts per requesting peer per minute. Passwords accept 15–128 characters, including spaces and Unicode, informed by [OWASP authentication guidance](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html). Email verification, password recovery, breached-password screening and shared storage/rate limits for multiple server processes are not implemented.
+
 ## What is saved, and where?
 
 | File/state | Purpose | On restart |
 |---|---|---|
 | `extensions/security/data/menu.json` | Separate menu data using the existing JSON store | Kept |
-| `.classroom/security-accounts.json` | Fictional usernames, assigned roles and Argon2 password hashes | Kept |
-| `.classroom/security-credentials.json` | Local teaching access sheet: generated passwords and optional API tokens | Passwords kept; API tokens rotated |
+| `.classroom/security-accounts.json` | Seeded and registered usernames, assigned roles and Argon2 password hashes | Kept |
+| `.classroom/security-credentials.json` | Teaching access sheet for the two seeded accounts only: generated passwords and optional API tokens | Passwords kept; API tokens rotated |
 | Browser sessions in server memory | Resolve the random cookie identifier to the signed-in account | Everyone signs out |
 
 These local data/credential files are Git-ignored and are not served over HTTP. The teaching access sheet necessarily contains readable demo passwords; the login verifier uses the separate hashes. If the sheet is lost, no plaintext password can be recovered from its hash. For a fresh fictional setup, stop the example, rename **both** account/credential files as local backups and restart. The launcher does not reset the menu.
@@ -73,7 +90,7 @@ Browser cookies and API bearer tokens are deliberately separate here. Signing in
 python start_security.py --check
 ```
 
-Checks use temporary data. They verify login, permissions, CSRF, logout, expiry, rejection without writes, safe rendering and the API comparison.
+Checks use temporary data. They verify signup, duplicate rejection, saved hashes, failed saves, restart login, permissions, CSRF, logout, expiry, rejection without writes, safe rendering and the API comparison.
 
 ## Optional JWT implementation
 
@@ -93,7 +110,7 @@ Run **`python start_security.py --jwt --check`** for the existing checks plus th
 
 ## Adapting it
 
-Follow [Add login to your project](../../docs/security/add-login-to-your-project.md), using your existing user store, service and README. The example has a single-process session store and fictional seeded accounts; registration, recovery and public deployment need additional decisions. For customer-owned records, add a trusted ownership relationship and check the specific object.
+Follow [Add login to your project](../../docs/security/add-login-to-your-project.md), using your existing user store, service and README. The example has a single-process account/session store and local self-registration; recovery and public deployment need additional decisions. For customer-owned records, add a trusted ownership relationship and check the specific object.
 
 The earlier API on 8000, ORM example and frontend variants remain separate and unchanged. Starting this demo does not secure them. When integrating your own app, protect every route reaching the same operation/data.
 

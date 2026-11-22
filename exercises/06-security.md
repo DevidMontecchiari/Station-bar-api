@@ -33,6 +33,12 @@ The four stages match the **08A FastAPI Login and Permissions** slides. Start wi
 
 **Stop and discuss:** show the two views, one allowed operation and one denied attempt. Explain where the role is assigned and where it is enforced. Screenshots must not include passwords, session cookies or API tokens.
 
+## Optional: create an account before signing in
+
+On `/login`, choose **Create an account**. Register a fictional username and a new password, sign in, then open `/admin`: your new account gets **403**, just like the supplied user. Sign in as the supplied admin to see the new account in the assignments table.
+
+Follow the [signup walkthrough](../extensions/security/README.md#create-an-account). Compare account creation with login: where is the password hash saved, who assigns the role, and what survives a restart? Try a duplicate username and check that it cannot overwrite the existing account. This is another way to explore the same policy, not an additional submission.
+
 ## Optional: compare API credentials
 
 Open `/docs` on port8003. Repeat the same `POST /menu-items` with no bearer token (401), the `user` token (403), and the `admin` token (201). Copy the **token**, not the password, from the local credentials file into **Authorize**. Use **Logout** before switching. A browser login does not automatically sign you into this separate bearer API path.

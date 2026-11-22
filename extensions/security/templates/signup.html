@@ -1,0 +1,29 @@
+{% extends 'base.html' %}{% block title %}Create an account · Station Bar{% endblock %}
+{% block content %}
+<section class="login-layout">
+  <div class="welcome">
+    <p class="eyebrow">JOIN STATION BAR</p>
+    <h1>Your place<br>at the bar.</h1>
+    <p>Create an account to browse the menu. Menu changes remain an administrator task.</p>
+    <div class="scene" aria-hidden="true"><span>☕</span><div class="shelf"></div></div>
+  </div>
+  <div class="panel">
+    <p class="eyebrow">NEW ACCOUNT</p><h2>Create an account</h2>
+    {% if error %}<p class="alert" role="alert">{{ error }}</p>{% endif %}
+    <form method="post" action="/signup">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <label for="username">Username</label>
+      <input id="username" name="username" autocomplete="username" minlength="3" maxlength="32" value="{{ username or '' }}" aria-describedby="username-help" required>
+      <small id="username-help">3–32 letters, numbers, dots, underscores or hyphens. Start with a letter or number. Saved in lowercase.</small>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="new-password" minlength="15" maxlength="128" aria-describedby="password-help" required>
+      <small id="password-help">15–128 characters. A phrase with spaces works too.</small>
+      <label for="confirm-password">Confirm password</label>
+      <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" minlength="15" maxlength="128" required>
+      <button class="primary" type="submit">Create account</button>
+    </form>
+    <p>Already have an account? <a href="/login">Sign in</a>.</p>
+    <p class="hint">Classroom example: use a fictional username and a password you do not use elsewhere.</p>
+  </div>
+</section>
+{% endblock %}

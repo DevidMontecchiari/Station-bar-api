@@ -29,7 +29,7 @@ def main():
     credential_file.parent.mkdir(parents=True, exist_ok=True)
     entries = json.loads(credential_file.read_text(encoding="utf-8")) if credential_file.exists() else {}
     if account_file.exists():
-        accounts = AccountStore([Account(**row) for row in json.loads(account_file.read_text(encoding="utf-8"))])
+        accounts = AccountStore([Account(**row) for row in json.loads(account_file.read_text(encoding="utf-8"))], file=account_file)
     else:
         rows = []
         entries = {}
@@ -40,8 +40,12 @@ def main():
         fd = os.open(account_file, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
         with os.fdopen(fd, "w", encoding="utf-8") as stream:
             json.dump(rows, stream, indent=2)
-        accounts = AccountStore([Account(**row) for row in rows])
-    for name in accounts.accounts:
+        accounts = AccountStore([Account(**row) for row in rows], file=account_file)
+    # The access sheet is only for the two seeded demo identities. Registered
+    # passwords are never written here, and signup does not issue opaque tokens.
+    for name in ("user", "admin"):
+        if name not in accounts.accounts:
+            continue
         principal = accounts.principal(name)
         token, expires = registry.issue(principal)
         entries[name] = {**entries.get(name, {}), "username": name, "token": token,

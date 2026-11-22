@@ -65,6 +65,18 @@ class JWTChecks(unittest.TestCase):
                          {"username": "user", "permissions": []})
         self.denied(token, 403)
 
+    def test_registered_account_can_obtain_jwt_but_cannot_write(self):
+        import re
+        page = self.client.get("/signup")
+        csrf = re.search(r'name="csrf" value="([^"]+)"', page.text)[1]
+        result = self.client.post("/signup", data={"username": "jwt-guest", "password": "fictional-test-password",
+                                  "confirm_password": "fictional-test-password", "csrf": csrf, "role": "admin"})
+        self.assertEqual(result.status_code, 200)
+        token = self.token("jwt-guest")
+        self.assertEqual(self.client.get("/jwt/whoami", headers=self.headers(token)).json(),
+                         {"username": "jwt-guest", "permissions": []})
+        self.denied(token, 403)
+
     def test_admin_write_persists_but_restart_invalidates_token(self):
         token = self.token("admin")
         r = self.client.post("/jwt/menu-items", json=ITEM, headers=self.headers(token))

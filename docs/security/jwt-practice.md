@@ -26,6 +26,8 @@ Use this route if your API client will present a signed access token. The browse
 
 Do not share passwords/tokens in Moodle, screenshots, commits or external token-decoder websites. A signed JWT payload is readable; it is not encrypted.
 
+You can also [register a fictional account](../../extensions/security/README.md#create-an-account) at `/signup` and use its lowercase username and chosen password at `/jwt/token`. That password is not on the seeded teaching access sheet. The new account receives the user role, with no `menu:write` permission.
+
 ## 2. Run the same operation with two identities
 
 Use **GET `/jwt/whoami`** first: the user has no `menu:write` permission. Then try **POST `/jwt/menu-items`** with:

@@ -32,6 +32,8 @@ The four stages match the **08A FastAPI Login and Permissions** slides. Start wi
 Run **`python start_security.py`**, then open the printed **8003 /login** link.
 Use the fictional **user/admin passwords** in `.classroom/security-credentials.json` locally.
 
+**New: create your own fictional account.** Choose **Create an account** on the login page, or open **8003 `/signup`**. New accounts always have the regular user role. [Try signup, then check permissions](extensions/security/README.md#create-an-account).
+
 **[Exercise 6](exercises/06-security.md)**: sign in as a user, try the admin area, then sign in as an admin and add an item. The admin page shows the assigned roles; the server enforces the permissions. Both views use the same separate saved menu.
 
 **Optional JWT route:** `python start_security.py --jwt` starts the same service with token issuance and protected `/jwt` routes. [Follow the JWT exercise](docs/security/jwt-practice.md) (08A A23-A26); use your local passwords to obtain a signed token. Stop the existing security launcher before switching modes.

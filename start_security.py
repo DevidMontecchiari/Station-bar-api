@@ -89,6 +89,7 @@ def main(argv=None):
                   "Guide: docs/security/jwt-practice.md. Browser login and earlier opaque tokens stay separate.", flush=True)
         print("\nOpen .classroom/security-credentials.json locally for user/admin passwords.\n"
               "Browser: sign in at /login. Use separate browser profiles for simultaneous views.\n"
+              "New account: /signup creates a regular user; sign in with the username/password you chose.\n"
               "Opaque API comparison: use its separate Authorize field with the account's token value, not a JWT.\n"
               "Data: extensions/security/data/menu.json (separate; retained on restart).\n"
               "Browser sessions expire after one hour; restart signs everyone out but keeps accounts/data.\n"
